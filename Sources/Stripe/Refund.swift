@@ -49,11 +49,15 @@ public struct Refund: Codable {
     /// The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account.
     public let sourceTransferReversal: String?
     /// Status of the refund.
-    public let status: Status?
+    public let status: Status
+    /// ID of the invoice this refund is for, if one exists.
+    public let invoice: String?
+    /// ID of the customer this refund is for, if one exists.
+    public let customer: String?
     /// If the accompanying transfer was reversed, the transfer reversal object.
     public let transferReversal: String?
 
-    public init(id: String, object: String, amount: Int, balanceTransaction: String?, charge: String?, created: TimeInterval, currency: String, refundDescription: String?, destinationDetails: DestinationDetails?, failureBalanceTransaction: String?, failureReason: String?, instructionsEmail: String?, metadata: Metadata?, nextAction: NextAction?, paymentIntent: PaymentIntent.Expandable?, pendingReason: PendingReason?, reason: Reason?, receiptNumber: String?, sourceTransferReversal: String?, status: Status?, transferReversal: String?) {
+    public init(id: String, object: String, amount: Int, balanceTransaction: String?, charge: String?, created: TimeInterval, currency: String, refundDescription: String?, destinationDetails: DestinationDetails?, failureBalanceTransaction: String?, failureReason: String?, instructionsEmail: String?, metadata: Metadata?, nextAction: NextAction?, paymentIntent: PaymentIntent.Expandable?, pendingReason: PendingReason?, reason: Reason?, receiptNumber: String?, sourceTransferReversal: String?, status: Status, transferReversal: String?, invoice: String?, customer: String?) {
         self.id = id
         self.object = object
         self.amount = amount
@@ -75,6 +79,8 @@ public struct Refund: Codable {
         self.sourceTransferReversal = sourceTransferReversal
         self.status = status
         self.transferReversal = transferReversal
+        self.invoice = invoice
+        self.customer = customer
     }
 
     public enum CodingKeys: String, CodingKey {
@@ -98,7 +104,9 @@ public struct Refund: Codable {
              receiptNumber = "receipt_number",
              sourceTransferReversal = "source_transfer_reversal",
              status,
-             transferReversal = "transfer_reversal"
+             transferReversal = "transfer_reversal",
+             invoice,
+             customer
     }
 
     public enum Reason: String, Codable {
@@ -177,9 +185,9 @@ public struct Refund: Codable {
 
         public struct DisplayDetails: Codable {
             public let emailSent: EmailSent?
-            public let expiresAt: Int?
+            public let expiresAt: TimeInterval?
 
-            public init(emailSent: EmailSent?, expiresAt: Int?) {
+            public init(emailSent: EmailSent?, expiresAt: TimeInterval?) {
                 self.emailSent = emailSent
                 self.expiresAt = expiresAt
             }
@@ -190,10 +198,10 @@ public struct Refund: Codable {
             }
 
             public struct EmailSent: Codable {
-                public let emailSentAt: Int
+                public let emailSentAt: TimeInterval
                 public let emailSentTo: String
 
-                public init(emailSentAt: Int, emailSentTo: String) {
+                public init(emailSentAt: TimeInterval, emailSentTo: String) {
                     self.emailSentAt = emailSentAt
                     self.emailSentTo = emailSentTo
                 }

@@ -19,7 +19,7 @@ public struct Price: Codable {
     /// Describes how to compute the price per period. Either `per_unit` or `tiered`.
     public let billingScheme: BillingScheme
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
-    public let created: Int
+    public let created: TimeInterval
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
     public let currency: String
     /// Prices defined in each available currency option. Each key must be a three-letter ISO currency code and a supported currency.
@@ -54,7 +54,7 @@ public struct Price: Codable {
     public let unitAmountDecimal: String?
 
     /// Designated initializer
-    public init(id: String, object: String, active: Bool, billingScheme: BillingScheme, created: Int, currency: String, currencyOptions: [String: CurrencyOption]?, customUnitAmount: CustomUnitAmount?, livemode: Bool, lookupKey: String?, metadata: Metadata?, nickname: String?, product: String, recurring: Recurring?, taxBehavior: TaxBehavior?, tiers: [Tier]?, tiersMode: TiersMode?, transformQuantity: TransformQuantity?, type: PriceType, unitAmount: Int?, unitAmountDecimal: String?) {
+    public init(id: String, object: String, active: Bool, billingScheme: BillingScheme, created: TimeInterval, currency: String, currencyOptions: [String: CurrencyOption]?, customUnitAmount: CustomUnitAmount?, livemode: Bool, lookupKey: String?, metadata: Metadata?, nickname: String?, product: String, recurring: Recurring?, taxBehavior: TaxBehavior?, tiers: [Tier]?, tiersMode: TiersMode?, transformQuantity: TransformQuantity?, type: PriceType, unitAmount: Int?, unitAmountDecimal: String?) {
         self.id = id
         self.object = object
         self.active = active

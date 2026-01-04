@@ -69,7 +69,7 @@ public struct Charge: Codable {
     /// ID of the payment method used in this charge.
     public let paymentMethod: String?
     /// Details about the payment method at the time of the transaction.
-    public let paymentMethodDetails: PaymentMethodDetails?
+    public let paymentMethodDetails: PaymentMethodDetails
     /// Information about the presentment currency for the charge.
     public let presentmentDetails: PresentmentDetails?
     /// Options to configure Radar.
@@ -104,7 +104,7 @@ public struct Charge: Codable {
     public let transferGroup: String?
 
     /// Designated initializer
-    public init(id: String, object: String, amount: Int, amountCaptured: Int, amountRefunded: Int, application: String?, applicationFee: String?, applicationFeeAmount: Int?, balanceTransaction: String?, billingDetails: Billing?, calculatedStatementDescriptor: String?, captured: Bool, created: TimeInterval, currency: String, customer: Customer.Expandable?, chargeDescription: String?, disputed: Bool, failureBalanceTransaction: String?, failureCode: String?, failureMessage: String?, fraudDetails: FraudDetails?, invoice: String?, livemode: Bool, metadata: Metadata?, onBehalfOf: String?, outcome: Outcome?, paid: Bool, paymentIntent: String?, paymentMethod: String?, paymentMethodDetails: PaymentMethodDetails?, presentmentDetails: PresentmentDetails?, radarOptions: RadarOptions?, receiptEmail: String?, receiptNumber: String?, receiptURL: String?, refunded: Bool, refunds: ListObject<Refund>?, review: String?, shipping: ChargeShipping?, sourceTransfer: String?, statementDescriptor: String?, statementDescriptorSuffix: String?, status: Status, transfer: String?, transferData: TransferData?, transferGroup: String?) {
+    public init(id: String, object: String, amount: Int, amountCaptured: Int, amountRefunded: Int, application: String?, applicationFee: String?, applicationFeeAmount: Int?, balanceTransaction: String?, billingDetails: Billing?, calculatedStatementDescriptor: String?, captured: Bool, created: TimeInterval, currency: String, customer: Customer.Expandable?, chargeDescription: String?, disputed: Bool, failureBalanceTransaction: String?, failureCode: String?, failureMessage: String?, fraudDetails: FraudDetails?, invoice: String?, livemode: Bool, metadata: Metadata?, onBehalfOf: String?, outcome: Outcome?, paid: Bool, paymentIntent: String?, paymentMethod: String?, paymentMethodDetails: PaymentMethodDetails, presentmentDetails: PresentmentDetails?, radarOptions: RadarOptions?, receiptEmail: String?, receiptNumber: String?, receiptURL: String?, refunded: Bool, refunds: ListObject<Refund>?, review: String?, shipping: ChargeShipping?, sourceTransfer: String?, statementDescriptor: String?, statementDescriptorSuffix: String?, status: Status, transfer: String?, transferData: TransferData?, transferGroup: String?) {
         self.id = id
         self.object = object
         self.amount = amount

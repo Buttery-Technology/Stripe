@@ -17,7 +17,7 @@ public struct Product: Codable {
     /// Whether the product is currently available for purchase.
     public let active: Bool
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
-    public let created: Int
+    public let created: TimeInterval
     /// The ID of the Price object that is the default price for this product.
     public let defaultPrice: String?
     /// The product's description, meant to be displayable to the customer.
@@ -43,12 +43,12 @@ public struct Product: Codable {
     /// A label that represents units of this product.
     public let unitLabel: String?
     /// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-    public let updated: Int
+    public let updated: TimeInterval
     /// A URL of a publicly-accessible webpage for this product.
     public let url: String?
 
     /// Designated initializer
-    public init(id: String, object: String, active: Bool, created: Int, defaultPrice: String?, productDescription: String?, images: [String], livemode: Bool, marketingFeatures: [MarketingFeature], metadata: Metadata?, name: String, packageDimensions: Dimensions?, shippable: Bool?, statementDescriptor: String?, taxCode: String?, unitLabel: String?, updated: Int, url: String?) {
+    public init(id: String, object: String, active: Bool, created: TimeInterval, defaultPrice: String?, productDescription: String?, images: [String], livemode: Bool, marketingFeatures: [MarketingFeature], metadata: Metadata?, name: String, packageDimensions: Dimensions?, shippable: Bool?, statementDescriptor: String?, taxCode: String?, unitLabel: String?, updated: TimeInterval, url: String?) {
         self.id = id
         self.object = object
         self.active = active

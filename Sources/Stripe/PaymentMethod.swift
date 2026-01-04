@@ -61,6 +61,7 @@ public struct PaymentMethod: Codable {
         case cardPresent = "card_present"
         case cashapp
         case crypto
+        case custom
         case customerBalance = "customer_balance"
         case eps
         case fpx
@@ -72,6 +73,7 @@ public struct PaymentMethod: Codable {
         case kakaoPay = "kakao_pay"
         case klarna
         case konbini
+        case krCard = "kr_card"
         case link
         case mbWay = "mb_way"
         case mobilepay
@@ -80,6 +82,7 @@ public struct PaymentMethod: Codable {
         case nzBankAccount = "nz_bank_account"
         case oxxo
         case p24
+        case payByBank = "pay_by_bank"
         case payco
         case paynow
         case paypal
