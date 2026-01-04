@@ -49,11 +49,11 @@ public struct Refund: Codable {
     /// The transfer reversal that is associated with the refund. Only present if the charge came from another Stripe account.
     public let sourceTransferReversal: String?
     /// Status of the refund.
-    public let status: String?
+    public let status: Status?
     /// If the accompanying transfer was reversed, the transfer reversal object.
     public let transferReversal: String?
 
-    public init(id: String, object: String, amount: Int, balanceTransaction: String?, charge: String?, created: TimeInterval, currency: String, refundDescription: String?, destinationDetails: DestinationDetails?, failureBalanceTransaction: String?, failureReason: String?, instructionsEmail: String?, metadata: Metadata?, nextAction: NextAction?, paymentIntent: PaymentIntent.Expandable?, pendingReason: PendingReason?, reason: Reason?, receiptNumber: String?, sourceTransferReversal: String?, status: String?, transferReversal: String?) {
+    public init(id: String, object: String, amount: Int, balanceTransaction: String?, charge: String?, created: TimeInterval, currency: String, refundDescription: String?, destinationDetails: DestinationDetails?, failureBalanceTransaction: String?, failureReason: String?, instructionsEmail: String?, metadata: Metadata?, nextAction: NextAction?, paymentIntent: PaymentIntent.Expandable?, pendingReason: PendingReason?, reason: Reason?, receiptNumber: String?, sourceTransferReversal: String?, status: Status?, transferReversal: String?) {
         self.id = id
         self.object = object
         self.amount = amount
@@ -108,11 +108,18 @@ public struct Refund: Codable {
         case expiredUncapturedCharge = "expired_uncaptured_charge"
     }
 
+    public enum Status: String, Codable {
+        case pending
+        case requiresAction = "requires_action"
+        case succeeded
+        case failed
+        case canceled
+    }
+
     public enum PendingReason: String, Codable {
-        case processorDecline = "processor_decline"
+        case processing
         case insufficientFunds = "insufficient_funds"
-        case lostOrStolen = "lost_or_stolen_card"
-        case unknown
+        case chargePending = "charge_pending"
     }
 
     // MARK: - Destination Details

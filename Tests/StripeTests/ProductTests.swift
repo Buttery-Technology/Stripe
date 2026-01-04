@@ -17,6 +17,7 @@ struct ProductTests {
             "created": 1234567890,
             "images": [],
             "livemode": false,
+            "marketing_features": [],
             "name": "Test Product",
             "updated": 1234567890
         }
@@ -44,6 +45,7 @@ struct ProductTests {
             "description": "A great product",
             "images": ["https://example.com/image1.png", "https://example.com/image2.png"],
             "livemode": true,
+            "marketing_features": [],
             "metadata": {},
             "name": "Premium Widget",
             "package_dimensions": {
@@ -99,10 +101,10 @@ struct ProductTests {
 
         let product = try JSONDecoder().decode(Product.self, from: json)
 
-        #expect(product.marketingFeatures?.count == 3)
-        #expect(product.marketingFeatures?[0].name == "Fast shipping")
-        #expect(product.marketingFeatures?[1].name == "24/7 support")
-        #expect(product.marketingFeatures?[2].name == "Money-back guarantee")
+        #expect(product.marketingFeatures.count == 3)
+        #expect(product.marketingFeatures[0].name == "Fast shipping")
+        #expect(product.marketingFeatures[1].name == "24/7 support")
+        #expect(product.marketingFeatures[2].name == "Money-back guarantee")
     }
 
     @Test("Handles null optional fields")
@@ -117,6 +119,7 @@ struct ProductTests {
             "description": null,
             "images": [],
             "livemode": false,
+            "marketing_features": [],
             "name": "Null Test",
             "package_dimensions": null,
             "shippable": null,

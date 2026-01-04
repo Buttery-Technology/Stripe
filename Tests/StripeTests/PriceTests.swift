@@ -30,11 +30,11 @@ struct PriceTests {
         #expect(price.id == "price_123")
         #expect(price.object == "price")
         #expect(price.active == true)
-        #expect(price.billingScheme == "per_unit")
+        #expect(price.billingScheme == .perUnit)
         #expect(price.currency == "usd")
         #expect(price.livemode == false)
         #expect(price.product == "prod_123")
-        #expect(price.type == "one_time")
+        #expect(price.type == .oneTime)
         #expect(price.unitAmount == 2000)
         #expect(price.recurring == nil)
     }
@@ -66,7 +66,7 @@ struct PriceTests {
         let price = try JSONDecoder().decode(Price.self, from: json)
 
         #expect(price.id == "price_recurring")
-        #expect(price.type == "recurring")
+        #expect(price.type == .recurring)
         #expect(price.recurring != nil)
         #expect(price.recurring?.interval == .month)
         #expect(price.recurring?.intervalCount == 1)
@@ -129,13 +129,13 @@ struct PriceTests {
 
         let price = try JSONDecoder().decode(Price.self, from: json)
 
-        #expect(price.billingScheme == "tiered")
+        #expect(price.billingScheme == .tiered)
         #expect(price.tiers?.count == 3)
         #expect(price.tiers?[0].unitAmount == 1000)
         #expect(price.tiers?[0].upTo == 10)
         #expect(price.tiers?[1].unitAmount == 800)
         #expect(price.tiers?[2].upTo == nil)
-        #expect(price.tiersMode == "graduated")
+        #expect(price.tiersMode == .graduated)
     }
 
     @Test("Decodes price with currency options")

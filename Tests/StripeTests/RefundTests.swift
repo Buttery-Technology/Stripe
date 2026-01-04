@@ -28,7 +28,7 @@ struct RefundTests {
         #expect(refund.amount == 1000)
         #expect(refund.charge == "ch_123")
         #expect(refund.currency == "usd")
-        #expect(refund.status == "succeeded")
+        #expect(refund.status == .succeeded)
     }
 
     @Test("Decodes refund with reason")
@@ -125,7 +125,7 @@ struct RefundTests {
 
         let refund = try JSONDecoder().decode(Refund.self, from: json)
 
-        #expect(refund.status == "failed")
+        #expect(refund.status == .failed)
         #expect(refund.failureBalanceTransaction == "txn_fail")
         #expect(refund.failureReason == "lost_or_stolen_card")
     }
