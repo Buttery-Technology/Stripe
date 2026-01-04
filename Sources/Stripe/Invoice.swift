@@ -44,6 +44,8 @@ public struct Invoice: Codable {
     public let billingReason: BillingReason?
     /// Either `charge_automatically` or `send_invoice`.
     public let collectionMethod: CollectionMethod
+    /// The PaymentIntent client secret when invoice is finalized.
+    public let confirmationSecret: ConfirmationSecret?
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
     public let created: TimeInterval
     /// Three-letter ISO currency code.
@@ -52,6 +54,8 @@ public struct Invoice: Codable {
     public let customFields: [InvoiceCustomField]?
     /// The ID of the customer who will be billed.
     public let customer: String
+    /// ID of the CustomerAccount this invoice belongs to, if one exists.
+    public let customerAccount: String?
     /// The customer's address.
     public let customerAddress: Address?
     /// The customer's email.
@@ -108,8 +112,12 @@ public struct Invoice: Codable {
     public let number: String?
     /// The account on behalf of which to charge.
     public let onBehalfOf: String?
+    /// The parent that generated this invoice (quote or subscription with proration).
+    public let parent: InvoiceParent?
     /// Configuration settings for the PaymentIntent that is generated when the invoice is finalized.
     public let paymentSettings: InvoicePaymentSettings
+    /// List of payments for this invoice.
+    public let payments: InvoicePayments
     /// End of the usage period during which invoice items were added to this invoice.
     public let periodEnd: TimeInterval
     /// Start of the usage period during which invoice items were added to this invoice.
@@ -150,12 +158,16 @@ public struct Invoice: Codable {
     public let totalDiscountAmounts: [TotalDiscountAmount]?
     /// The integer amount in cents representing the total excluding tax.
     public let totalExcludingTax: Int?
+    /// The aggregate amounts calculated per pretax credit amount types.
+    public let totalPretaxCreditAmounts: [TotalPretaxCreditAmount]?
     /// The aggregate amounts calculated per tax rate for all line items.
     public let totalTaxAmounts: [TotalTaxAmount]?
+    /// The aggregate tax information for all line items.
+    public let totalTaxes: [TotalTax]?
     /// Invoices are automatically paid or sent 1 hour after webhooks are delivered.
     public let webhooksDeliveredAt: TimeInterval?
 
-    public init(id: String, object: String, accountCountry: String?, accountName: String?, accountTaxIds: [String]?, amountDue: Int, amountOverpaid: Int, amountPaid: Int, amountRemaining: Int, amountShipping: Int, application: String?, attemptCount: Int, attempted: Bool, autoAdvance: Bool, automaticTax: InvoiceAutomaticTax, billingReason: BillingReason?, collectionMethod: CollectionMethod, created: TimeInterval, currency: String, customFields: [InvoiceCustomField]?, customer: String, customerAddress: Address?, customerEmail: String?, customerName: String?, customerPhone: String?, customerShipping: Shipping?, customerTaxExempt: CustomerTaxExempt?, customerTaxIds: [InvoiceCustomerTaxId]?, defaultPaymentMethod: String?, defaultSource: String?, defaultTaxRates: [TaxRate], invoiceDescription: String?, discounts: [String], dueDate: TimeInterval?, effectiveAt: TimeInterval?, endingBalance: Int?, footer: String?, fromInvoice: FromInvoice?, hostedInvoiceUrl: String?, invoicePdf: String?, issuer: Issuer, lastFinalizationError: LastFinalizationError?, latestRevision: String?, lines: ListObject<InvoiceLineItem>, livemode: Bool, metadata: Metadata?, nextPaymentAttempt: TimeInterval?, number: String?, onBehalfOf: String?, paymentSettings: InvoicePaymentSettings, periodEnd: TimeInterval, periodStart: TimeInterval, postPaymentCreditNotesAmount: Int, prePaymentCreditNotesAmount: Int, receiptNumber: String?, rendering: InvoiceRendering?, shippingCost: InvoiceShippingCost?, shippingDetails: Shipping?, startingBalance: Int, statementDescriptor: String?, status: InvoiceStatus?, statusTransitions: StatusTransitions, subscription: String?, subtotal: Int, subtotalExcludingTax: Int?, testClock: String?, thresholdReason: ThresholdReason?, total: Int, totalDiscountAmounts: [TotalDiscountAmount]?, totalExcludingTax: Int?, totalTaxAmounts: [TotalTaxAmount]?, webhooksDeliveredAt: TimeInterval?) {
+    public init(id: String, object: String, accountCountry: String?, accountName: String?, accountTaxIds: [String]?, amountDue: Int, amountOverpaid: Int, amountPaid: Int, amountRemaining: Int, amountShipping: Int, application: String?, attemptCount: Int, attempted: Bool, autoAdvance: Bool, automaticTax: InvoiceAutomaticTax, billingReason: BillingReason?, collectionMethod: CollectionMethod, confirmationSecret: ConfirmationSecret?, created: TimeInterval, currency: String, customFields: [InvoiceCustomField]?, customer: String, customerAccount: String?, customerAddress: Address?, customerEmail: String?, customerName: String?, customerPhone: String?, customerShipping: Shipping?, customerTaxExempt: CustomerTaxExempt?, customerTaxIds: [InvoiceCustomerTaxId]?, defaultPaymentMethod: String?, defaultSource: String?, defaultTaxRates: [TaxRate], invoiceDescription: String?, discounts: [String], dueDate: TimeInterval?, effectiveAt: TimeInterval?, endingBalance: Int?, footer: String?, fromInvoice: FromInvoice?, hostedInvoiceUrl: String?, invoicePdf: String?, issuer: Issuer, lastFinalizationError: LastFinalizationError?, latestRevision: String?, lines: ListObject<InvoiceLineItem>, livemode: Bool, metadata: Metadata?, nextPaymentAttempt: TimeInterval?, number: String?, onBehalfOf: String?, parent: InvoiceParent?, paymentSettings: InvoicePaymentSettings, payments: InvoicePayments, periodEnd: TimeInterval, periodStart: TimeInterval, postPaymentCreditNotesAmount: Int, prePaymentCreditNotesAmount: Int, receiptNumber: String?, rendering: InvoiceRendering?, shippingCost: InvoiceShippingCost?, shippingDetails: Shipping?, startingBalance: Int, statementDescriptor: String?, status: InvoiceStatus?, statusTransitions: StatusTransitions, subscription: String?, subtotal: Int, subtotalExcludingTax: Int?, testClock: String?, thresholdReason: ThresholdReason?, total: Int, totalDiscountAmounts: [TotalDiscountAmount]?, totalExcludingTax: Int?, totalPretaxCreditAmounts: [TotalPretaxCreditAmount]?, totalTaxAmounts: [TotalTaxAmount]?, totalTaxes: [TotalTax]?, webhooksDeliveredAt: TimeInterval?) {
         self.id = id
         self.object = object
         self.accountCountry = accountCountry
@@ -173,10 +185,12 @@ public struct Invoice: Codable {
         self.automaticTax = automaticTax
         self.billingReason = billingReason
         self.collectionMethod = collectionMethod
+        self.confirmationSecret = confirmationSecret
         self.created = created
         self.currency = currency
         self.customFields = customFields
         self.customer = customer
+        self.customerAccount = customerAccount
         self.customerAddress = customerAddress
         self.customerEmail = customerEmail
         self.customerName = customerName
@@ -205,7 +219,9 @@ public struct Invoice: Codable {
         self.nextPaymentAttempt = nextPaymentAttempt
         self.number = number
         self.onBehalfOf = onBehalfOf
+        self.parent = parent
         self.paymentSettings = paymentSettings
+        self.payments = payments
         self.periodEnd = periodEnd
         self.periodStart = periodStart
         self.postPaymentCreditNotesAmount = postPaymentCreditNotesAmount
@@ -226,7 +242,9 @@ public struct Invoice: Codable {
         self.total = total
         self.totalDiscountAmounts = totalDiscountAmounts
         self.totalExcludingTax = totalExcludingTax
+        self.totalPretaxCreditAmounts = totalPretaxCreditAmounts
         self.totalTaxAmounts = totalTaxAmounts
+        self.totalTaxes = totalTaxes
         self.webhooksDeliveredAt = webhooksDeliveredAt
     }
 
@@ -248,10 +266,12 @@ public struct Invoice: Codable {
              automaticTax = "automatic_tax",
              billingReason = "billing_reason",
              collectionMethod = "collection_method",
+             confirmationSecret = "confirmation_secret",
              created,
              currency,
              customFields = "custom_fields",
              customer,
+             customerAccount = "customer_account",
              customerAddress = "customer_address",
              customerEmail = "customer_email",
              customerName = "customer_name",
@@ -280,7 +300,9 @@ public struct Invoice: Codable {
              nextPaymentAttempt = "next_payment_attempt",
              number,
              onBehalfOf = "on_behalf_of",
+             parent,
              paymentSettings = "payment_settings",
+             payments,
              periodEnd = "period_end",
              periodStart = "period_start",
              postPaymentCreditNotesAmount = "post_payment_credit_notes_amount",
@@ -301,7 +323,9 @@ public struct Invoice: Codable {
              total,
              totalDiscountAmounts = "total_discount_amounts",
              totalExcludingTax = "total_excluding_tax",
+             totalPretaxCreditAmounts = "total_pretax_credit_amounts",
              totalTaxAmounts = "total_tax_amounts",
+             totalTaxes = "total_taxes",
              webhooksDeliveredAt = "webhooks_delivered_at"
     }
 
@@ -679,6 +703,178 @@ public struct Invoice: Codable {
             case amount,
                  inclusive,
                  taxRate = "tax_rate"
+        }
+    }
+
+    // MARK: - Confirmation Secret
+
+    /// The PaymentIntent client secret when invoice is finalized.
+    public struct ConfirmationSecret: Codable {
+        /// The client secret of the PaymentIntent created during finalization.
+        public let clientSecret: String?
+        /// Type of confirmation secret.
+        public let type: String?
+
+        public init(clientSecret: String?, type: String?) {
+            self.clientSecret = clientSecret
+            self.type = type
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case clientSecret = "client_secret",
+                 type
+        }
+    }
+
+    // MARK: - Invoice Parent
+
+    /// The parent that generated this invoice.
+    public struct InvoiceParent: Codable {
+        /// The quote details if generated from a quote.
+        public let quoteDetails: QuoteDetails?
+        /// The subscription details if generated from a subscription.
+        public let subscriptionDetails: SubscriptionDetails?
+        /// The type of the parent.
+        public let type: String
+
+        public init(quoteDetails: QuoteDetails?, subscriptionDetails: SubscriptionDetails?, type: String) {
+            self.quoteDetails = quoteDetails
+            self.subscriptionDetails = subscriptionDetails
+            self.type = type
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case quoteDetails = "quote_details",
+                 subscriptionDetails = "subscription_details",
+                 type
+        }
+
+        public struct QuoteDetails: Codable {
+            /// The quote that generated this invoice.
+            public let quote: String
+
+            public init(quote: String) {
+                self.quote = quote
+            }
+        }
+
+        public struct SubscriptionDetails: Codable {
+            /// The subscription that generated this invoice.
+            public let subscription: String
+
+            public init(subscription: String) {
+                self.subscription = subscription
+            }
+        }
+    }
+
+    // MARK: - Invoice Payments
+
+    /// List of payments for this invoice.
+    public struct InvoicePayments: Codable {
+        /// The list object type.
+        public let object: String
+        /// The list of payment data.
+        public let data: [InvoicePayment]
+        /// Whether there are more payments.
+        public let hasMore: Bool
+        /// URL to fetch more payments.
+        public let url: String
+
+        public init(object: String, data: [InvoicePayment], hasMore: Bool, url: String) {
+            self.object = object
+            self.data = data
+            self.hasMore = hasMore
+            self.url = url
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case object,
+                 data,
+                 hasMore = "has_more",
+                 url
+        }
+
+        public struct InvoicePayment: Codable {
+            /// Payment object ID.
+            public let payment: String?
+
+            public init(payment: String?) {
+                self.payment = payment
+            }
+        }
+    }
+
+    // MARK: - Total Pretax Credit Amount
+
+    /// Aggregate pretax credit amount.
+    public struct TotalPretaxCreditAmount: Codable {
+        /// The amount of the pretax credit.
+        public let amount: Int
+        /// The credit balance transaction.
+        public let creditBalanceTransaction: String?
+        /// The discount that generated this credit.
+        public let discount: String?
+        /// The type of credit.
+        public let type: String
+
+        public init(amount: Int, creditBalanceTransaction: String?, discount: String?, type: String) {
+            self.amount = amount
+            self.creditBalanceTransaction = creditBalanceTransaction
+            self.discount = discount
+            self.type = type
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case amount,
+                 creditBalanceTransaction = "credit_balance_transaction",
+                 discount,
+                 type
+        }
+    }
+
+    // MARK: - Total Tax
+
+    /// Aggregate tax information.
+    public struct TotalTax: Codable {
+        /// The amount of tax.
+        public let amount: Int
+        /// Whether this tax is inclusive.
+        public let inclusive: Bool
+        /// The tax rate details.
+        public let taxRateDetails: TaxRateDetails?
+        /// Taxability reason.
+        public let taxabilityReason: String?
+
+        public init(amount: Int, inclusive: Bool, taxRateDetails: TaxRateDetails?, taxabilityReason: String?) {
+            self.amount = amount
+            self.inclusive = inclusive
+            self.taxRateDetails = taxRateDetails
+            self.taxabilityReason = taxabilityReason
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case amount,
+                 inclusive,
+                 taxRateDetails = "tax_rate_details",
+                 taxabilityReason = "taxability_reason"
+        }
+
+        public struct TaxRateDetails: Codable {
+            /// The tax rate percentage.
+            public let percentageDecimal: String?
+            /// The tax type.
+            public let taxType: String?
+
+            public init(percentageDecimal: String?, taxType: String?) {
+                self.percentageDecimal = percentageDecimal
+                self.taxType = taxType
+            }
+
+            public enum CodingKeys: String, CodingKey {
+                case percentageDecimal = "percentage_decimal",
+                     taxType = "tax_type"
+            }
         }
     }
 }
