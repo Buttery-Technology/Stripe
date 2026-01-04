@@ -27,7 +27,7 @@ public struct Product: Codable {
     /// Has the value true if the object exists in live mode or the value false if the object exists in test mode.
     public let livemode: Bool
     /// A list of up to 15 marketing features for this product.
-    public let marketingFeatures: [MarketingFeature]?
+    public let marketingFeatures: [MarketingFeature]
     /// Set of key-value pairs that you can attach to an object.
     public let metadata: Metadata?
     /// The product's name, meant to be displayable to the customer.
@@ -48,7 +48,7 @@ public struct Product: Codable {
     public let url: String?
 
     /// Designated initializer
-    public init(id: String, object: String, active: Bool, created: Int, defaultPrice: String?, productDescription: String?, images: [String], livemode: Bool, marketingFeatures: [MarketingFeature]?, metadata: Metadata?, name: String, packageDimensions: Dimensions?, shippable: Bool?, statementDescriptor: String?, taxCode: String?, unitLabel: String?, updated: Int, url: String?) {
+    public init(id: String, object: String, active: Bool, created: Int, defaultPrice: String?, productDescription: String?, images: [String], livemode: Bool, marketingFeatures: [MarketingFeature], metadata: Metadata?, name: String, packageDimensions: Dimensions?, shippable: Bool?, statementDescriptor: String?, taxCode: String?, unitLabel: String?, updated: Int, url: String?) {
         self.id = id
         self.object = object
         self.active = active
@@ -93,9 +93,9 @@ public struct Product: Codable {
     // MARK: - Marketing Feature
     public struct MarketingFeature: Codable {
         /// The marketing feature name. Up to 80 characters long.
-        public let name: String
+        public let name: String?
 
-        public init(name: String) {
+        public init(name: String?) {
             self.name = name
         }
     }

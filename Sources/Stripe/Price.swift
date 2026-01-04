@@ -16,8 +16,8 @@ public struct Price: Codable {
     public let object: String
     /// Whether the price can be used for new purchases.
     public let active: Bool
-    /// Describes how to compute the price per period. Either `per_unit` or `tiered`. `per_unit` indicates that the fixed amount (specified in `unit_amount` or `unit_amount_decimal`) will be charged per unit in `quantity` (for prices with `usage_type=licensed`), or per unit of total usage (for prices with `usage_type=metered`). `tiered` indicates that the unit pricing will be computed using a tiering strategy as defined using the `tiers` and `tiers_mode` attributes.
-    public let billingScheme: String
+    /// Describes how to compute the price per period. Either `per_unit` or `tiered`.
+    public let billingScheme: BillingScheme
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
     public let created: Int
     /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
@@ -38,23 +38,23 @@ public struct Price: Codable {
     public let product: String
     /// The recurring components of a price such as `interval` and `usage_type`.
     public let recurring: Recurring?
-    /// Specifies whether the price is considered inclusive of taxes or exclusive of taxes. One of `inclusive`, `exclusive`, or `unspecified`. Once specified as either `inclusive` or `exclusive`, it cannot be changed.
-    public let taxBehavior: String?
+    /// Specifies whether the price is considered inclusive of taxes or exclusive of taxes.
+    public let taxBehavior: TaxBehavior?
     /// Each element represents a pricing tier. This parameter requires `billing_scheme` to be set to `tiered`. See also the documentation for `billing_scheme`. This field is not included by default. To include it in the response, [expand](https://stripe.com/docs/api/expanding_objects) the `tiers` field.
     public let tiers: [Tier]?
-    /// Defines if the tiering price should be `graduated` or `volume` based. In `volume`-based tiering, the maximum quantity within a period determines the per unit price. In `graduated` tiering, pricing can change as the quantity grows.
-    public let tiersMode: String?
+    /// Defines if the tiering price should be `graduated` or `volume` based.
+    public let tiersMode: TiersMode?
     /// Apply a transformation to the reported usage or set quantity before computing the amount billed. Cannot be combined with `tiers`.
     public let transformQuantity: TransformQuantity?
     /// One of `one_time` or `recurring` depending on whether the price is for a one-time purchase or a recurring (subscription) purchase.
-    public let type: String
+    public let type: PriceType
     /// The unit amount in cents to be charged, represented as a whole integer if possible. Only set if `billing_scheme=per_unit`.
     public let unitAmount: Int?
     /// The unit amount in cents to be charged, represented as a decimal string with at most 12 decimal places. Only set if `billing_scheme=per_unit`.
     public let unitAmountDecimal: String?
 
     /// Designated initializer
-    public init(id: String, object: String, active: Bool, billingScheme: String, created: Int, currency: String, currencyOptions: [String: CurrencyOption]?, customUnitAmount: CustomUnitAmount?, livemode: Bool, lookupKey: String?, metadata: Metadata?, nickname: String?, product: String, recurring: Recurring?, taxBehavior: String?, tiers: [Tier]?, tiersMode: String?, transformQuantity: TransformQuantity?, type: String, unitAmount: Int?, unitAmountDecimal: String?) {
+    public init(id: String, object: String, active: Bool, billingScheme: BillingScheme, created: Int, currency: String, currencyOptions: [String: CurrencyOption]?, customUnitAmount: CustomUnitAmount?, livemode: Bool, lookupKey: String?, metadata: Metadata?, nickname: String?, product: String, recurring: Recurring?, taxBehavior: TaxBehavior?, tiers: [Tier]?, tiersMode: TiersMode?, transformQuantity: TransformQuantity?, type: PriceType, unitAmount: Int?, unitAmountDecimal: String?) {
         self.id = id
         self.object = object
         self.active = active
@@ -236,5 +236,28 @@ public struct Price: Codable {
         public enum Round: String, Codable {
             case down, up
         }
+    }
+
+    // MARK: - Enums
+
+    public enum BillingScheme: String, Codable {
+        case perUnit = "per_unit"
+        case tiered
+    }
+
+    public enum TaxBehavior: String, Codable {
+        case exclusive
+        case inclusive
+        case unspecified
+    }
+
+    public enum TiersMode: String, Codable {
+        case graduated
+        case volume
+    }
+
+    public enum PriceType: String, Codable {
+        case oneTime = "one_time"
+        case recurring
     }
 }

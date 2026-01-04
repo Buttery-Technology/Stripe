@@ -62,13 +62,17 @@ public struct Customer: Codable {
     public let sources: ListObject<Source>?
     /// The customer's current subscriptions, if any.
     public let subscriptions: ListObject<Subscription>?
+    /// Tax details about the customer.
+    public let tax: Tax?
     /// Describes the customer's tax exemption status. One of `none`, `exempt`, or `reverse`.
     public let taxExempt: String?
+    /// The customer's tax IDs.
+    public let taxIds: ListObject<TaxId>?
     /// ID of the test clock this customer belongs to.
     public let testClock: String?
 
     /// Designated initializer
-    public init(id: String, object: String, address: Address?, balance: Int, businessName: String?, cashBalance: CashBalance?, created: TimeInterval, currency: String?, defaultSource: String?, delinquent: Bool?, customerDescription: String?, discount: Discount?, email: String?, individualName: String?, invoiceCreditBalance: [String: Int]?, invoicePrefix: String?, invoiceSettings: InvoiceSettings?, livemode: Bool, metadata: Metadata?, name: String?, nextInvoiceSequence: Int?, phone: String?, preferredLocales: [String]?, shipping: Shipping?, sources: ListObject<Source>?, subscriptions: ListObject<Subscription>?, taxExempt: String?, testClock: String?) {
+    public init(id: String, object: String, address: Address?, balance: Int, businessName: String?, cashBalance: CashBalance?, created: TimeInterval, currency: String?, defaultSource: String?, delinquent: Bool?, customerDescription: String?, discount: Discount?, email: String?, individualName: String?, invoiceCreditBalance: [String: Int]?, invoicePrefix: String?, invoiceSettings: InvoiceSettings?, livemode: Bool, metadata: Metadata?, name: String?, nextInvoiceSequence: Int?, phone: String?, preferredLocales: [String]?, shipping: Shipping?, sources: ListObject<Source>?, subscriptions: ListObject<Subscription>?, tax: Tax?, taxExempt: String?, taxIds: ListObject<TaxId>?, testClock: String?) {
         self.id = id
         self.object = object
         self.address = address
@@ -95,7 +99,9 @@ public struct Customer: Codable {
         self.shipping = shipping
         self.sources = sources
         self.subscriptions = subscriptions
+        self.tax = tax
         self.taxExempt = taxExempt
+        self.taxIds = taxIds
         self.testClock = testClock
     }
 
@@ -126,7 +132,9 @@ public struct Customer: Codable {
              shipping,
              sources,
              subscriptions,
+             tax,
              taxExempt = "tax_exempt",
+             taxIds = "tax_ids",
              testClock = "test_clock"
     }
 
@@ -352,6 +360,119 @@ public struct Customer: Codable {
                  url,
                  hasMore = "has_more",
                  data
+        }
+    }
+
+    // MARK: - Tax
+    public struct Tax: Codable {
+        /// Surfaces if automatic tax computation is possible given the current customer location information.
+        public let automaticTax: AutomaticTaxStatus
+        /// A recent IP address of the customer used for tax reporting and tax location inference.
+        public let ipAddress: String?
+        /// The customer's location as identified by Stripe Tax.
+        public let location: TaxLocation?
+
+        public init(automaticTax: AutomaticTaxStatus, ipAddress: String?, location: TaxLocation?) {
+            self.automaticTax = automaticTax
+            self.ipAddress = ipAddress
+            self.location = location
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case automaticTax = "automatic_tax"
+            case ipAddress = "ip_address"
+            case location
+        }
+
+        public enum AutomaticTaxStatus: String, Codable {
+            case supported
+            case notCollecting = "not_collecting"
+            case unrecognizedLocation = "unrecognized_location"
+            case failed
+        }
+
+        public struct TaxLocation: Codable {
+            /// The customer's country as identified by Stripe Tax.
+            public let country: String?
+            /// The data source used to infer the customer's location.
+            public let source: LocationSource?
+            /// The customer's state, county, province, or region as identified by Stripe Tax.
+            public let state: String?
+
+            public init(country: String?, source: LocationSource?, state: String?) {
+                self.country = country
+                self.source = source
+                self.state = state
+            }
+
+            public enum LocationSource: String, Codable {
+                case billingAddress = "billing_address"
+                case ipAddress = "ip_address"
+                case paymentMethod = "payment_method"
+                case shippingDestination = "shipping_destination"
+            }
+        }
+    }
+
+    // MARK: - Tax ID
+    public struct TaxId: Codable {
+        /// Unique identifier for the object.
+        public let id: String
+        /// String representing the object's type.
+        public let object: String
+        /// Two-letter ISO code representing the country of the tax ID.
+        public let country: String?
+        /// Time at which the object was created.
+        public let created: TimeInterval
+        /// ID of the customer.
+        public let customer: String?
+        /// Has the value true if the object exists in live mode.
+        public let livemode: Bool
+        /// Type of the tax ID.
+        public let type: String
+        /// Value of the tax ID.
+        public let value: String
+        /// Tax ID verification information.
+        public let verification: Verification?
+
+        public init(id: String, object: String, country: String?, created: TimeInterval, customer: String?, livemode: Bool, type: String, value: String, verification: Verification?) {
+            self.id = id
+            self.object = object
+            self.country = country
+            self.created = created
+            self.customer = customer
+            self.livemode = livemode
+            self.type = type
+            self.value = value
+            self.verification = verification
+        }
+
+        public struct Verification: Codable {
+            /// Verification status.
+            public let status: Status
+            /// Verified address.
+            public let verifiedAddress: String?
+            /// Verified name.
+            public let verifiedName: String?
+
+            public init(status: Status, verifiedAddress: String?, verifiedName: String?) {
+                self.status = status
+                self.verifiedAddress = verifiedAddress
+                self.verifiedName = verifiedName
+            }
+
+            public enum CodingKeys: String, CodingKey {
+                case status
+                case verifiedAddress = "verified_address"
+                case verifiedName = "verified_name"
+            }
+
+            public enum Status: String, Codable {
+                case pending
+                case verified
+                case unverified
+                case unavailable
+            }
         }
     }
 }
