@@ -38,7 +38,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let afterpay_clearpay = try singleValueContainer.decode(AfterpayClearpay.self)
                 self = .afterpay_clearpay(afterpay_clearpay)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -47,7 +46,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let card = try singleValueContainer.decode(PaymentCard.self)
                 self = .card(card)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -56,7 +54,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let customer_balance = try singleValueContainer.decode(CustomerBalance.self)
                 self = .customer_balance(customer_balance)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -65,7 +62,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let klarna = try singleValueContainer.decode(Klarna.self)
                 self = .klarna(klarna)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -74,7 +70,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let paypal = try singleValueContainer.decode(PayPal.self)
                 self = .paypal(paypal)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -83,7 +78,6 @@ extension Payment {
                 let singleValueContainer = try decoder.singleValueContainer()
                 let usBankAccount = try singleValueContainer.decode(USBankAccount.self)
                 self = .usBankAccount(usBankAccount)
-                print(self)
                 return
             } catch {
                 returnableError = error
@@ -100,11 +94,11 @@ extension Payment {
     public struct AfterpayClearpay: Codable {
         /// Controls when the funds will be captured from the customer’s account.
         public let captureMethod: CaptureMethod
-        /// Order identifier shown to the user in Afterpay’s online portal. We recommend using a value that helps you answer any questions a customer might have about the payment. The identifier is limited to 128 characters and may contain only public letters, digits, underscores, backslashes and dashes.
+        /// Order identifier shown to the user in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
         public let reference: String
         /// Indicates that you intend to make future payments with the payment method.
         ///
-        /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order’s Customer, if present, after the order’s PaymentIntent is confirmed and any required actions from the user are comppublic lete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction comppublic letes.
+        /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order’s Customer, if present, after the order’s PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
         ///
         /// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
         ///
@@ -130,7 +124,7 @@ extension Payment {
         public let fundingType: String
         /// Indicates that you intend to make future payments with this PaymentIntent’s payment method.
         ///
-        /// Providing this parameter [will attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are comppublic lete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction comppublic letes.
+        /// Providing this parameter [will attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
         ///
         /// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
         public let setupFutureUsage: SetupFutureUsage
@@ -159,7 +153,7 @@ extension Payment {
             public let fundingType: String
             /// Indicates that you intend to make future payments with this PaymentIntent’s payment method.
             ///
-            /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are comppublic lete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction comppublic letes.
+            /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
             ///
             /// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
             public let setupFutureUsage: SetupFutureUsage
@@ -193,7 +187,7 @@ extension Payment {
         public let preferredLocale: String
         /// Indicates that you intend to make future payments with this PaymentIntent’s payment method.
         ///
-        /// Providing this parameter [will attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are comppublic lete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction comppublic letes.
+        /// Providing this parameter [will attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the PaymentIntent’s Customer, if present, after the PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
         ///
         /// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
         public let setupFutureUsage: SetupFutureUsage
@@ -215,7 +209,7 @@ extension Payment {
         public let captureMethod: CaptureMethod
         /// Indicates that you intend to make future payments with the payment method.
         ///
-        /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order’s Customer, if present, after the order’s PaymentIntent is confirmed and any required actions from the user are comppublic lete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction comppublic letes.
+        /// Providing this parameter will [attach the payment method](https://stripe.com/docs/payments/save-during-payment) to the order’s Customer, if present, after the order’s PaymentIntent is confirmed and any required actions from the user are complete. If no Customer was provided, the payment method can still be [attached](https://stripe.com/docs/api/payment_methods/attach) to a Customer after the transaction completes.
         ///
         /// When processing card payments, Stripe also uses `setup_future_usage` to dynamically optimize your payment flow and comply with regional legislation and network rules, such as [SCA](https://stripe.com/docs/strong-customer-authentication).
         ///

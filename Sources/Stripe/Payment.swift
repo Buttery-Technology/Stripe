@@ -14,11 +14,11 @@ public struct Payment: Codable {
     public let paymentIntent: PaymentIntent.Expandable?
     /// Settings describing how the order should configure generated PaymentIntents.
     public let settings: Self.Settings
-    /// The status of the udnerlying payment associated with this order, if any. Null when the order is `open`.
+    /// The status of the underlying payment associated with this order, if any. Null when the order is `open`.
     public let status: Self.Status?
-    
+
     /// Designated initializer
-    public init(paymentIntent: PaymentIntent.Expandable?, settings: Self.Settings, status: Self.Status) {
+    public init(paymentIntent: PaymentIntent.Expandable?, settings: Self.Settings, status: Self.Status?) {
         self.paymentIntent = paymentIntent
         self.settings = settings
         self.status = status
