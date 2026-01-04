@@ -3,13 +3,24 @@
 
 import PackageDescription
 
+// Define supported platforms based on OS
+// Linux doesn't use the platforms array; Apple platforms require minimum versions
+#if os(macOS) || os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
+let supportedPlatforms: [SupportedPlatform] = [
+    .iOS(.v15),
+    .macOS(.v12),
+    .macCatalyst(.v14),
+    .tvOS(.v15),
+    .watchOS(.v8),
+    .visionOS(.v1),
+]
+#else
+let supportedPlatforms: [SupportedPlatform]? = nil
+#endif
+
 let package = Package(
     name: "Stripe",
-    platforms: [
-        .iOS(.v15),
-        .macOS(.v12),
-        .macCatalyst(.v14),
-    ],
+    platforms: supportedPlatforms,
     products: [
         .library(
             name: "Stripe",
