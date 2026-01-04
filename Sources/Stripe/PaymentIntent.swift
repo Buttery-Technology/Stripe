@@ -91,8 +91,17 @@ public struct PaymentIntent: Codable {
     /// Payment-method-specific configuration for this PaymentIntent.
     public let paymentMethodOptions: [String: AnyCodable]?
 
+    /// Information about the payment method configuration used for this PaymentIntent.
+    public let paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?
+
     /// The list of payment method types that this PaymentIntent can use.
     public let paymentMethodTypes: [String]
+
+    /// Payment methods explicitly excluded from this PaymentIntent's payment method types.
+    public let excludedPaymentMethodTypes: [String]?
+
+    /// Details about the payment method at the time of the transaction in the presentment currency.
+    public let presentmentDetails: PresentmentDetails?
 
     /// If present, this property tells you about the processing state of the payment.
     public let processing: Processing?
@@ -153,7 +162,10 @@ public struct PaymentIntent: Codable {
         onBehalfOf: String?,
         paymentMethod: String?,
         paymentMethodOptions: [String: AnyCodable]?,
+        paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails? = nil,
         paymentMethodTypes: [String],
+        excludedPaymentMethodTypes: [String]? = nil,
+        presentmentDetails: PresentmentDetails? = nil,
         processing: Processing?,
         receiptEmail: String?,
         review: String?,
@@ -192,7 +204,10 @@ public struct PaymentIntent: Codable {
         self.onBehalfOf = onBehalfOf
         self.paymentMethod = paymentMethod
         self.paymentMethodOptions = paymentMethodOptions
+        self.paymentMethodConfigurationDetails = paymentMethodConfigurationDetails
         self.paymentMethodTypes = paymentMethodTypes
+        self.excludedPaymentMethodTypes = excludedPaymentMethodTypes
+        self.presentmentDetails = presentmentDetails
         self.processing = processing
         self.receiptEmail = receiptEmail
         self.review = review
@@ -233,7 +248,10 @@ public struct PaymentIntent: Codable {
              onBehalfOf = "on_behalf_of",
              paymentMethod = "payment_method",
              paymentMethodOptions = "payment_method_options",
+             paymentMethodConfigurationDetails = "payment_method_configuration_details",
              paymentMethodTypes = "payment_method_types",
+             excludedPaymentMethodTypes = "excluded_payment_method_types",
+             presentmentDetails = "presentment_details",
              processing,
              receiptEmail = "receipt_email",
              review,
@@ -433,6 +451,41 @@ public struct PaymentIntent: Codable {
         public init(amount: Int?, destination: String) {
             self.amount = amount
             self.destination = destination
+        }
+    }
+
+    // MARK: - Presentment Details
+
+    /// Details about the payment method at the time of the transaction in the presentment currency.
+    public struct PresentmentDetails: Codable {
+        /// Amount intended to be collected by this payment, in presentment currency.
+        public let presentmentAmount: Int?
+        /// The presentment currency of the payment.
+        public let presentmentCurrency: String?
+
+        public init(presentmentAmount: Int?, presentmentCurrency: String?) {
+            self.presentmentAmount = presentmentAmount
+            self.presentmentCurrency = presentmentCurrency
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case presentmentAmount = "presentment_amount"
+            case presentmentCurrency = "presentment_currency"
+        }
+    }
+
+    // MARK: - Payment Method Configuration Details
+
+    /// Information about the payment method configuration used for this PaymentIntent.
+    public struct PaymentMethodConfigurationDetails: Codable {
+        /// ID of the payment method configuration used.
+        public let id: String
+        /// ID of the parent payment method configuration used.
+        public let parent: String?
+
+        public init(id: String, parent: String?) {
+            self.id = id
+            self.parent = parent
         }
     }
 }
