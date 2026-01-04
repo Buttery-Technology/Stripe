@@ -18,7 +18,7 @@ public struct Discount: Codable {
     public let subscription: String?
     
     /// Designated initializer
-    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String, end: Int, invoice: String?, invoiceItem: String, promotionCode: String?, start: Int, subscription: String?) {
+    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String, end: Int, invoice: String?, invoiceItem: String?, promotionCode: String?, start: Int, subscription: String?) {
         self.id = id
         self.object = object
         self.checkoutSession = checkoutSession

@@ -21,12 +21,12 @@ public struct Order: Codable {
     /// Customer billing details associated with the order.
     public let billingDetails: Billing?
     /// The client secret of this Order. Used for client-side retrieval using a publishable key.
-    /// The client secret can be used to comppublic lete a payment for an Order from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
+    /// The client secret can be used to complete a payment for an Order from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.
     /// Refer to our docs for [creating and processing](https://stripe.com/docs/orders-beta/create-and-process) an order to learn about how client_secret should be handled.
     public let clientSecret: String?
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
     public let created: Int
-    /// Three-public letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+    /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
     public let currency: String
     /// The customer which this orders belongs to.
     public let customer: Customer.Expandable?

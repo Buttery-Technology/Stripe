@@ -20,7 +20,7 @@ public struct LineItem: Codable {
     public let url: String
     
     /// Designated initializer
-    init(object: String, data: LineItemData, hasMore: Bool, url: String) {
+    public init(object: String, data: LineItemData, hasMore: Bool, url: String) {
         self.object = object
         self.data = data
         self.hasMore = hasMore
@@ -51,7 +51,7 @@ extension LineItem {
         public let amountTax: Int
         /// Total after discounts and taxes.
         public let amountTotal: Int
-        /// Three-public letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
+        /// Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html), in lowercase. Must be a [supported currency](https://stripe.com/docs/currencies).
         public let currency: String
         /// An arbitrary string attached to the object. Often useful for displaying to users. Defaults to product name.
         public let itemDescription: String?

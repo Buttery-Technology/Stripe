@@ -14,7 +14,7 @@ public struct Rate: Codable {
     public let object: String
     /// Defaults to `true`. When set to `false`, this tax rate cannot be used with new applications or Checkout Sessions, but will still work for subscriptions and invoices that already have it set.
     public let active: Bool
-    /// Two-public letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
+    /// Two-letter country code ([ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)).
     public let country: String
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
     public let created: Int
@@ -28,7 +28,7 @@ public struct Rate: Codable {
     public let jurisdiction: String
     /// Has the value true if the object exists in live mode or the value false if the object exists in test mode.
     public let livemode: Bool
-    /// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a public structured format.
+    /// Set of key-value pairs that you can attach to an object. This can be useful for storing additional information about the object in a structured format.
     public let metadata: Metadata?
     /// This represents the tax rate percent out of 100.
     public let percentage: Decimal

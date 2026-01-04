@@ -13,7 +13,7 @@ public struct InvoiceSettings: Codable {
     public let footer: String?
     
     /// Designated initializer
-    init(customFields: [CustomField]?, defaultPaymentMethod: String?, footer: String?) {
+    public init(customFields: [CustomField]?, defaultPaymentMethod: String?, footer: String?) {
         self.customFields = customFields
         self.defaultPaymentMethod = defaultPaymentMethod
         self.footer = footer

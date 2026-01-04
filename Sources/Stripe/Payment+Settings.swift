@@ -17,11 +17,11 @@ extension Payment {
         public let paymentMethodTypes: [MethodType]
         /// The URL to redirect the customer to after they authenticate their payment.
         public let returnURL: String?
-        /// For non-card charges, you can use this value as the comppublic lete description that appears on your customers’ statements. Must contain at least one public letter, maximum 22 characters.
+        /// For non-card charges, you can use this value as the complete description that appears on your customers' statements. Must contain at least one letter, maximum 22 characters.
         public let statementDescriptor: String?
-        /// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that’s set on the account to form the comppublic lete statement descriptor. Maximum 22 characters for the concatenated descriptor.
+        /// Provides information about a card payment that customers see on their statements. Concatenated with the prefix (shortened descriptor) or statement descriptor that's set on the account to form the complete statement descriptor. Maximum 22 characters for the concatenated descriptor.
         public let statementDescriptorSuffix: String?
-        /// Provides configuration for comppublic leting a transfer for the order after it is paid.
+        /// Provides configuration for completing a transfer for the order after it is paid.
         public let transferData: TransferData?
         
         /// Designated initializer
