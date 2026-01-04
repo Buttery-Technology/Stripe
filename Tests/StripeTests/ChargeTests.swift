@@ -29,6 +29,9 @@ struct ChargeTests {
             "disputed": false,
             "livemode": false,
             "paid": true,
+            "payment_method_details": {
+                "type": "card"
+            },
             "refunded": false,
             "status": "succeeded"
         }
@@ -81,6 +84,13 @@ struct ChargeTests {
                 "type": "authorized"
             },
             "paid": true,
+            "payment_method_details": {
+                "type": "card",
+                "card": {
+                    "brand": "visa",
+                    "last4": "4242"
+                }
+            },
             "refunded": false,
             "status": "succeeded"
         }
@@ -123,6 +133,9 @@ struct ChargeTests {
             },
             "livemode": false,
             "paid": true,
+            "payment_method_details": {
+                "type": "card"
+            },
             "refunded": false,
             "status": "succeeded"
         }
@@ -156,6 +169,7 @@ struct ChargeTests {
                 "disputed": false,
                 "livemode": false,
                 "paid": true,
+                "payment_method_details": {"type": "card"},
                 "refunded": false,
                 "status": "\(statusString)"
             }

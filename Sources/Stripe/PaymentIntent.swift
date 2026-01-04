@@ -50,7 +50,7 @@ public struct PaymentIntent: Codable {
     public let clientSecret: String?
 
     /// Describes whether we can confirm this PaymentIntent automatically or manually.
-    public let confirmationMethod: ConfirmationMethod?
+    public let confirmationMethod: ConfirmationMethod
 
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
     public let created: TimeInterval
@@ -139,7 +139,7 @@ public struct PaymentIntent: Codable {
         cancellationReason: CancellationReason?,
         captureMethod: CaptureMethod,
         clientSecret: String?,
-        confirmationMethod: ConfirmationMethod?,
+        confirmationMethod: ConfirmationMethod,
         created: TimeInterval,
         currency: String,
         customer: String?,

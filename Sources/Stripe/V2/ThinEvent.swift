@@ -28,7 +28,7 @@ public struct ThinEvent: Codable {
     public let apiVersion: String?
 
     /// Time at which the event was created. Measured in seconds since the Unix epoch.
-    public let created: Date
+    public let created: TimeInterval
 
     /// Has the value `true` if the object exists in live mode or `false` if in test mode.
     public let livemode: Bool
@@ -43,7 +43,7 @@ public struct ThinEvent: Codable {
     public let reason: EventReason?
 
     /// Designated initializer
-    public init(id: String, object: String, apiVersion: String?, created: Date, livemode: Bool, type: String, relatedObject: RelatedObject, reason: EventReason?) {
+    public init(id: String, object: String, apiVersion: String?, created: TimeInterval, livemode: Bool, type: String, relatedObject: RelatedObject, reason: EventReason?) {
         self.id = id
         self.object = object
         self.apiVersion = apiVersion
@@ -144,7 +144,7 @@ public struct V2Event: Codable {
     public let apiVersion: String?
 
     /// Time at which the event was created. Measured in seconds since the Unix epoch.
-    public let created: Date
+    public let created: TimeInterval
 
     /// Has the value `true` if the object exists in live mode or `false` if in test mode.
     public let livemode: Bool
@@ -162,7 +162,7 @@ public struct V2Event: Codable {
     public let relatedObject: ThinEvent.RelatedObject?
 
     /// Designated initializer
-    public init(id: String, object: String, apiVersion: String?, created: Date, livemode: Bool, type: String, data: EventData?, reason: ThinEvent.EventReason?, relatedObject: ThinEvent.RelatedObject?) {
+    public init(id: String, object: String, apiVersion: String?, created: TimeInterval, livemode: Bool, type: String, data: EventData?, reason: ThinEvent.EventReason?, relatedObject: ThinEvent.RelatedObject?) {
         self.id = id
         self.object = object
         self.apiVersion = apiVersion
