@@ -34,10 +34,10 @@ public struct MeterEvent: Codable {
 
     /// The time of the event. Must be within the past 35 calendar days or up to
     /// 5 minutes in the future. Defaults to current timestamp if not specified.
-    public let timestamp: Date?
+    public let timestamp: TimeInterval?
 
     /// Designated initializer
-    public init(eventName: String, identifier: String? = nil, payload: [String: String], timestamp: Date? = nil) {
+    public init(eventName: String, identifier: String? = nil, payload: [String: String], timestamp: TimeInterval? = nil) {
         self.eventName = eventName
         self.identifier = identifier
         self.payload = payload
@@ -63,18 +63,18 @@ public struct MeterEventResponse: Codable {
     public let eventName: String
 
     /// The time of the event.
-    public let timestamp: Date
+    public let timestamp: TimeInterval
 
     /// The payload of the event.
     public let payload: [String: String]
 
     /// Time at which the object was created.
-    public let created: Date
+    public let created: TimeInterval
 
     /// Has the value `true` if the object exists in live mode or `false` if in test mode.
     public let livemode: Bool
 
-    public init(identifier: String, eventName: String, timestamp: Date, payload: [String: String], created: Date, livemode: Bool) {
+    public init(identifier: String, eventName: String, timestamp: TimeInterval, payload: [String: String], created: TimeInterval, livemode: Bool) {
         self.identifier = identifier
         self.eventName = eventName
         self.timestamp = timestamp

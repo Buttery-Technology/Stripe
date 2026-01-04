@@ -84,7 +84,7 @@ struct V2Tests {
 
         @Test("Creates meter event with all fields")
         func createsMeterEventWithAllFields() {
-            let timestamp = Date()
+            let timestamp = Date().timeIntervalSince1970
             let event = MeterEvent(
                 eventName: "storage_usage",
                 identifier: "evt_unique_123",

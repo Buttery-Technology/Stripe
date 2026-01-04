@@ -29,7 +29,7 @@ public struct Charge: Codable {
     /// ID of the balance transaction that describes the impact of this charge on your account balance.
     public let balanceTransaction: String?
     /// Billing information associated with the payment method at the time of the transaction.
-    public let billingDetails: Billing
+    public let billingDetails: Billing?
     /// The full statement descriptor that is passed to card networks, and that is displayed on your customers' credit card and bank statements.
     public let calculatedStatementDescriptor: String?
     /// If the charge was created without capturing, this Boolean represents whether it is still uncaptured or has since been captured.
@@ -69,7 +69,7 @@ public struct Charge: Codable {
     /// ID of the payment method used in this charge.
     public let paymentMethod: String?
     /// Details about the payment method at the time of the transaction.
-    public let paymentMethodDetails: PaymentMethod?
+    public let paymentMethodDetails: PaymentMethodDetails?
     /// Information about the presentment currency for the charge.
     public let presentmentDetails: PresentmentDetails?
     /// Options to configure Radar.
@@ -104,7 +104,7 @@ public struct Charge: Codable {
     public let transferGroup: String?
 
     /// Designated initializer
-    public init(id: String, object: String, amount: Int, amountCaptured: Int, amountRefunded: Int, application: String?, applicationFee: String?, applicationFeeAmount: Int?, balanceTransaction: String?, billingDetails: Billing, calculatedStatementDescriptor: String?, captured: Bool, created: TimeInterval, currency: String, customer: Customer.Expandable?, chargeDescription: String?, disputed: Bool, failureBalanceTransaction: String?, failureCode: String?, failureMessage: String?, fraudDetails: FraudDetails?, invoice: String?, livemode: Bool, metadata: Metadata?, onBehalfOf: String?, outcome: Outcome?, paid: Bool, paymentIntent: String?, paymentMethod: String?, paymentMethodDetails: PaymentMethod?, presentmentDetails: PresentmentDetails?, radarOptions: RadarOptions?, receiptEmail: String?, receiptNumber: String?, receiptURL: String?, refunded: Bool, refunds: ListObject<Refund>?, review: String?, shipping: ChargeShipping?, sourceTransfer: String?, statementDescriptor: String?, statementDescriptorSuffix: String?, status: Status, transfer: String?, transferData: TransferData?, transferGroup: String?) {
+    public init(id: String, object: String, amount: Int, amountCaptured: Int, amountRefunded: Int, application: String?, applicationFee: String?, applicationFeeAmount: Int?, balanceTransaction: String?, billingDetails: Billing?, calculatedStatementDescriptor: String?, captured: Bool, created: TimeInterval, currency: String, customer: Customer.Expandable?, chargeDescription: String?, disputed: Bool, failureBalanceTransaction: String?, failureCode: String?, failureMessage: String?, fraudDetails: FraudDetails?, invoice: String?, livemode: Bool, metadata: Metadata?, onBehalfOf: String?, outcome: Outcome?, paid: Bool, paymentIntent: String?, paymentMethod: String?, paymentMethodDetails: PaymentMethodDetails?, presentmentDetails: PresentmentDetails?, radarOptions: RadarOptions?, receiptEmail: String?, receiptNumber: String?, receiptURL: String?, refunded: Bool, refunds: ListObject<Refund>?, review: String?, shipping: ChargeShipping?, sourceTransfer: String?, statementDescriptor: String?, statementDescriptorSuffix: String?, status: Status, transfer: String?, transferData: TransferData?, transferGroup: String?) {
         self.id = id
         self.object = object
         self.amount = amount
@@ -345,6 +345,89 @@ public struct Charge: Codable {
         public enum CodingKeys: String, CodingKey {
             case presentmentAmount = "presentment_amount"
             case presentmentCurrency = "presentment_currency"
+        }
+    }
+
+    // MARK: - Payment Method Details
+    /// Details about the payment method at the time of the transaction.
+    public struct PaymentMethodDetails: Codable {
+        /// The type of payment method used.
+        public let type: String
+
+        /// Card-specific details, if the payment method was a card.
+        public let card: CardDetails?
+
+        public init(type: String, card: CardDetails?) {
+            self.type = type
+            self.card = card
+        }
+
+        /// Card payment method details.
+        public struct CardDetails: Codable {
+            /// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
+            public let brand: String?
+            /// Two-letter ISO code representing the country of the card.
+            public let country: String?
+            /// Two-digit number representing the card's expiration month.
+            public let expMonth: Int?
+            /// Four-digit number representing the card's expiration year.
+            public let expYear: Int?
+            /// Uniquely identifies this particular card number.
+            public let fingerprint: String?
+            /// Card funding type. Can be `credit`, `debit`, `prepaid`, or `unknown`.
+            public let funding: String?
+            /// The last four digits of the card.
+            public let last4: String?
+            /// Identifies which network this charge was processed on.
+            public let network: String?
+            /// Populated if this transaction used 3D Secure authentication.
+            public let threeDSecure: ThreeDSecure?
+
+            public init(brand: String?, country: String?, expMonth: Int?, expYear: Int?, fingerprint: String?, funding: String?, last4: String?, network: String?, threeDSecure: ThreeDSecure?) {
+                self.brand = brand
+                self.country = country
+                self.expMonth = expMonth
+                self.expYear = expYear
+                self.fingerprint = fingerprint
+                self.funding = funding
+                self.last4 = last4
+                self.network = network
+                self.threeDSecure = threeDSecure
+            }
+
+            public enum CodingKeys: String, CodingKey {
+                case brand, country
+                case expMonth = "exp_month"
+                case expYear = "exp_year"
+                case fingerprint, funding, last4, network
+                case threeDSecure = "three_d_secure"
+            }
+
+            /// 3D Secure authentication details.
+            public struct ThreeDSecure: Codable {
+                /// The outcome of the 3D Secure authentication request.
+                public let authenticationFlow: String?
+                /// Result of the 3D Secure authentication.
+                public let result: String?
+                /// Additional information about the 3D Secure result.
+                public let resultReason: String?
+                /// The version of 3D Secure used.
+                public let version: String?
+
+                public init(authenticationFlow: String?, result: String?, resultReason: String?, version: String?) {
+                    self.authenticationFlow = authenticationFlow
+                    self.result = result
+                    self.resultReason = resultReason
+                    self.version = version
+                }
+
+                public enum CodingKeys: String, CodingKey {
+                    case authenticationFlow = "authentication_flow"
+                    case result
+                    case resultReason = "result_reason"
+                    case version
+                }
+            }
         }
     }
 }

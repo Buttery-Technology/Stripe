@@ -33,17 +33,17 @@ public struct MeterEventSession: Codable {
     public let authenticationToken: String
 
     /// The time at which the object was created. Measured in seconds since the Unix epoch.
-    public let created: Date
+    public let created: TimeInterval
 
     /// The time at which the session will expire. Measured in seconds since the Unix epoch.
     /// Sessions are valid for 15 minutes.
-    public let expiresAt: Date
+    public let expiresAt: TimeInterval
 
     /// Has the value `true` if the object exists in live mode or `false` if in test mode.
     public let livemode: Bool
 
     /// Designated initializer
-    public init(id: String, object: String, authenticationToken: String, created: Date, expiresAt: Date, livemode: Bool) {
+    public init(id: String, object: String, authenticationToken: String, created: TimeInterval, expiresAt: TimeInterval, livemode: Bool) {
         self.id = id
         self.object = object
         self.authenticationToken = authenticationToken
@@ -63,12 +63,12 @@ public struct MeterEventSession: Codable {
 
     /// Whether this session has expired.
     public var isExpired: Bool {
-        return Date() >= expiresAt
+        return Date().timeIntervalSince1970 >= expiresAt
     }
 
     /// The remaining time until this session expires, in seconds.
     public var remainingTime: TimeInterval {
-        return max(0, expiresAt.timeIntervalSince(Date()))
+        return max(0, expiresAt - Date().timeIntervalSince1970)
     }
 }
 

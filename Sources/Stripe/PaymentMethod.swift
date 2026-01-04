@@ -48,34 +48,48 @@ public struct PaymentMethod: Codable {
         case affirm
         case afterpayClearpay = "afterpay_clearpay"
         case alipay
+        case alma
         case amazonPay = "amazon_pay"
+        case applePay = "apple_pay"
         case auBecsDebit = "au_becs_debit"
         case bacsDebit = "bacs_debit"
         case bancontact
+        case billie
         case blik
         case boleto
         case card
         case cardPresent = "card_present"
         case cashapp
+        case crypto
         case customerBalance = "customer_balance"
         case eps
         case fpx
         case giropay
+        case googlePay = "google_pay"
         case grabpay
         case ideal
         case interacPresent = "interac_present"
+        case kakaoPay = "kakao_pay"
         case klarna
         case konbini
         case link
+        case mbWay = "mb_way"
         case mobilepay
         case multibanco
+        case naverPay = "naver_pay"
+        case nzBankAccount = "nz_bank_account"
         case oxxo
         case p24
+        case payco
         case paynow
         case paypal
+        case paypay
+        case payto
         case pix
         case promptpay
         case revolutPay = "revolut_pay"
+        case samsungPay = "samsung_pay"
+        case satispay
         case sepaDebit = "sepa_debit"
         case sofort
         case swish
