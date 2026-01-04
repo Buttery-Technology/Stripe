@@ -24,7 +24,7 @@ public struct EventDestination: Codable {
     public let object: String
 
     /// Time at which the object was created. Measured in seconds since the Unix epoch.
-    public let created: Date
+    public let created: TimeInterval
 
     /// An optional description of what the event destination is used for.
     public let eventDestinationDescription: String?
@@ -51,7 +51,7 @@ public struct EventDestination: Codable {
     public let statusDetails: StatusDetails?
 
     /// Time at which the object was last updated. Measured in seconds since the Unix epoch.
-    public let updated: Date
+    public let updated: TimeInterval
 
     /// Webhook endpoint configuration, if type is `webhook_endpoint`.
     public let webhookEndpoint: WebhookEndpoint?
@@ -60,7 +60,7 @@ public struct EventDestination: Codable {
     public let amazonEventbridge: AmazonEventbridge?
 
     /// Designated initializer
-    public init(id: String, object: String, created: Date, eventDestinationDescription: String?, enabledEvents: [String], type: DestinationType, livemode: Bool, metadata: Metadata?, name: String, status: Status, statusDetails: StatusDetails?, updated: Date, webhookEndpoint: WebhookEndpoint?, amazonEventbridge: AmazonEventbridge?) {
+    public init(id: String, object: String, created: TimeInterval, eventDestinationDescription: String?, enabledEvents: [String], type: DestinationType, livemode: Bool, metadata: Metadata?, name: String, status: Status, statusDetails: StatusDetails?, updated: TimeInterval, webhookEndpoint: WebhookEndpoint?, amazonEventbridge: AmazonEventbridge?) {
         self.id = id
         self.object = object
         self.created = created
