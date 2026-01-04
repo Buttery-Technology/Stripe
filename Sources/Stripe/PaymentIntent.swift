@@ -61,8 +61,14 @@ public struct PaymentIntent: Codable {
     /// ID of the Customer this PaymentIntent belongs to.
     public let customer: String?
 
+    /// ID of the CustomerAccount this PaymentIntent belongs to, if one exists.
+    public let customerAccount: String?
+
     /// An arbitrary string attached to the object for description.
     public let paymentIntentDescription: String?
+
+    /// Automation triggers and configurations for this PaymentIntent.
+    public let hooks: PaymentIntentHooks?
 
     /// ID of the invoice that created this PaymentIntent.
     public let invoice: String?
@@ -96,6 +102,9 @@ public struct PaymentIntent: Codable {
 
     /// The list of payment method types that this PaymentIntent can use.
     public let paymentMethodTypes: [String]
+
+    /// Industry-specific information about the payment (flight, car rental, lodging, etc.).
+    public let paymentDetails: PaymentDetails?
 
     /// Payment methods explicitly excluded from this PaymentIntent's payment method types.
     public let excludedPaymentMethodTypes: [String]?
@@ -152,7 +161,9 @@ public struct PaymentIntent: Codable {
         created: TimeInterval,
         currency: String,
         customer: String?,
+        customerAccount: String? = nil,
         paymentIntentDescription: String?,
+        hooks: PaymentIntentHooks? = nil,
         invoice: String?,
         lastPaymentError: LastPaymentError?,
         latestCharge: String?,
@@ -164,6 +175,7 @@ public struct PaymentIntent: Codable {
         paymentMethodOptions: [String: AnyCodable]?,
         paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails? = nil,
         paymentMethodTypes: [String],
+        paymentDetails: PaymentDetails? = nil,
         excludedPaymentMethodTypes: [String]? = nil,
         presentmentDetails: PresentmentDetails? = nil,
         processing: Processing?,
@@ -194,7 +206,9 @@ public struct PaymentIntent: Codable {
         self.created = created
         self.currency = currency
         self.customer = customer
+        self.customerAccount = customerAccount
         self.paymentIntentDescription = paymentIntentDescription
+        self.hooks = hooks
         self.invoice = invoice
         self.lastPaymentError = lastPaymentError
         self.latestCharge = latestCharge
@@ -206,6 +220,7 @@ public struct PaymentIntent: Codable {
         self.paymentMethodOptions = paymentMethodOptions
         self.paymentMethodConfigurationDetails = paymentMethodConfigurationDetails
         self.paymentMethodTypes = paymentMethodTypes
+        self.paymentDetails = paymentDetails
         self.excludedPaymentMethodTypes = excludedPaymentMethodTypes
         self.presentmentDetails = presentmentDetails
         self.processing = processing
@@ -238,7 +253,9 @@ public struct PaymentIntent: Codable {
              created,
              currency,
              customer,
+             customerAccount = "customer_account",
              paymentIntentDescription = "description",
+             hooks,
              invoice,
              lastPaymentError = "last_payment_error",
              latestCharge = "latest_charge",
@@ -250,6 +267,7 @@ public struct PaymentIntent: Codable {
              paymentMethodOptions = "payment_method_options",
              paymentMethodConfigurationDetails = "payment_method_configuration_details",
              paymentMethodTypes = "payment_method_types",
+             paymentDetails = "payment_details",
              excludedPaymentMethodTypes = "excluded_payment_method_types",
              presentmentDetails = "presentment_details",
              processing,
@@ -486,6 +504,63 @@ public struct PaymentIntent: Codable {
         public init(id: String, parent: String?) {
             self.id = id
             self.parent = parent
+        }
+    }
+
+    // MARK: - Payment Intent Hooks
+
+    /// Automation triggers and configurations for the PaymentIntent lifecycle.
+    public struct PaymentIntentHooks: Codable {
+        /// Automation triggers for the PaymentIntent.
+        public let beforeConfirmation: BeforeConfirmation?
+
+        public init(beforeConfirmation: BeforeConfirmation?) {
+            self.beforeConfirmation = beforeConfirmation
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case beforeConfirmation = "before_confirmation"
+        }
+
+        public struct BeforeConfirmation: Codable {
+            /// The type of automation to run.
+            public let type: String
+
+            public init(type: String) {
+                self.type = type
+            }
+        }
+    }
+
+    // MARK: - Payment Details
+
+    /// Industry-specific information about the payment.
+    public struct PaymentDetails: Codable {
+        /// Car rental details for this PaymentIntent.
+        public let carRental: [String: AnyCodable]?
+        /// Event details for this PaymentIntent.
+        public let eventDetails: [String: AnyCodable]?
+        /// Flight details for this PaymentIntent.
+        public let flight: [String: AnyCodable]?
+        /// Lodging details for this PaymentIntent.
+        public let lodging: [String: AnyCodable]?
+        /// Subscription details for this PaymentIntent.
+        public let subscription: [String: AnyCodable]?
+
+        public init(carRental: [String: AnyCodable]?, eventDetails: [String: AnyCodable]?, flight: [String: AnyCodable]?, lodging: [String: AnyCodable]?, subscription: [String: AnyCodable]?) {
+            self.carRental = carRental
+            self.eventDetails = eventDetails
+            self.flight = flight
+            self.lodging = lodging
+            self.subscription = subscription
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case carRental = "car_rental",
+                 eventDetails = "event_details",
+                 flight,
+                 lodging,
+                 subscription
         }
     }
 }
