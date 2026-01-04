@@ -8,17 +8,21 @@
 import Foundation
 
 public struct Discount: Codable {
-    public let id, object: String
+    public let id: String
+    public let object: String
     public let checkoutSession: String?
     public let coupon: Coupon
-    public let customer: String
-    public let end: Int
-    public let invoice, invoiceItem, promotionCode: String?
+    public let customer: String?
+    public let end: Int?
+    public let invoice: String?
+    public let invoiceItem: String?
+    public let promotionCode: String?
     public let start: Int
     public let subscription: String?
-    
+    public let subscriptionItem: String?
+
     /// Designated initializer
-    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String, end: Int, invoice: String?, invoiceItem: String?, promotionCode: String?, start: Int, subscription: String?) {
+    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String?, end: Int?, invoice: String?, invoiceItem: String?, promotionCode: String?, start: Int, subscription: String?, subscriptionItem: String?) {
         self.id = id
         self.object = object
         self.checkoutSession = checkoutSession
@@ -30,6 +34,7 @@ public struct Discount: Codable {
         self.promotionCode = promotionCode
         self.start = start
         self.subscription = subscription
+        self.subscriptionItem = subscriptionItem
     }
     
     public enum CodingKeys: String, CodingKey {
@@ -39,5 +44,6 @@ public struct Discount: Codable {
         case invoiceItem = "invoice_item"
         case promotionCode = "promotion_code"
         case start, subscription
+        case subscriptionItem = "subscription_item"
     }
 }

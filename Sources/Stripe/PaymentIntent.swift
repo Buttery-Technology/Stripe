@@ -38,7 +38,7 @@ public struct PaymentIntent: Codable {
     public let automaticPaymentMethods: AutomaticPaymentMethods?
 
     /// Populated when `status` is `canceled`, the time at which the PaymentIntent was canceled.
-    public let canceledAt: Date?
+    public let canceledAt: TimeInterval?
 
     /// Reason for cancellation of this PaymentIntent.
     public let cancellationReason: CancellationReason?
@@ -52,8 +52,8 @@ public struct PaymentIntent: Codable {
     /// Describes whether we can confirm this PaymentIntent automatically or manually.
     public let confirmationMethod: ConfirmationMethod?
 
-    /// Time at which the object was created.
-    public let created: Date
+    /// Time at which the object was created. Measured in seconds since the Unix epoch.
+    public let created: TimeInterval
 
     /// Three-letter ISO currency code.
     public let currency: String
@@ -135,12 +135,12 @@ public struct PaymentIntent: Codable {
         application: String?,
         applicationFeeAmount: Int?,
         automaticPaymentMethods: AutomaticPaymentMethods?,
-        canceledAt: Date?,
+        canceledAt: TimeInterval?,
         cancellationReason: CancellationReason?,
         captureMethod: CaptureMethod,
         clientSecret: String?,
         confirmationMethod: ConfirmationMethod?,
-        created: Date,
+        created: TimeInterval,
         currency: String,
         customer: String?,
         paymentIntentDescription: String?,
@@ -264,6 +264,7 @@ public struct PaymentIntent: Codable {
         case abandoned
         case automatic
         case duplicate
+        case expired
         case failedInvoice = "failed_invoice"
         case fraudulent
         case requestedByCustomer = "requested_by_customer"

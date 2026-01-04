@@ -229,6 +229,12 @@ public struct Charge: Codable {
 
     // MARK: - Outcome
     public struct Outcome: Codable {
+        /// For charges declined by the network, a 2 digit code indicating advice given by the network on how to proceed.
+        public let adviceCode: String?
+        /// For charges declined by the network, a brand-specific decline code providing more network-specific information.
+        public let networkAdviceCode: String?
+        /// For charges declined by the network, a network-specific decline code.
+        public let networkDeclineCode: String?
         /// Possible values are `approved_by_network`, `declined_by_network`, `not_sent_to_network`, and `reversed_after_approval`.
         public let networkStatus: String?
         /// An enumerated value providing a more detailed explanation of the outcome's type.
@@ -244,7 +250,10 @@ public struct Charge: Codable {
         /// Possible values are `authorized`, `manual_review`, `issuer_declined`, `blocked`, and `invalid`.
         public let type: String
 
-        public init(networkStatus: String?, reason: String?, riskLevel: String?, riskScore: Int?, rule: String?, sellerMessage: String?, type: String) {
+        public init(adviceCode: String?, networkAdviceCode: String?, networkDeclineCode: String?, networkStatus: String?, reason: String?, riskLevel: String?, riskScore: Int?, rule: String?, sellerMessage: String?, type: String) {
+            self.adviceCode = adviceCode
+            self.networkAdviceCode = networkAdviceCode
+            self.networkDeclineCode = networkDeclineCode
             self.networkStatus = networkStatus
             self.reason = reason
             self.riskLevel = riskLevel
@@ -255,13 +264,16 @@ public struct Charge: Codable {
         }
 
         public enum CodingKeys: String, CodingKey {
-            case networkStatus = "network_status",
-                 reason,
-                 riskLevel = "risk_level",
-                 riskScore = "risk_score",
-                 rule,
-                 sellerMessage = "seller_message",
-                 type
+            case adviceCode = "advice_code"
+            case networkAdviceCode = "network_advice_code"
+            case networkDeclineCode = "network_decline_code"
+            case networkStatus = "network_status"
+            case reason
+            case riskLevel = "risk_level"
+            case riskScore = "risk_score"
+            case rule
+            case sellerMessage = "seller_message"
+            case type
         }
     }
 
