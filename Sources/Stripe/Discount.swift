@@ -13,16 +13,18 @@ public struct Discount: Codable {
     public let checkoutSession: String?
     public let coupon: Coupon
     public let customer: String?
-    public let end: Int?
+    /// Date the discount ends. Measured in seconds since the Unix epoch.
+    public let end: TimeInterval?
     public let invoice: String?
     public let invoiceItem: String?
     public let promotionCode: String?
-    public let start: Int
+    /// Date the discount started. Measured in seconds since the Unix epoch.
+    public let start: TimeInterval
     public let subscription: String?
     public let subscriptionItem: String?
 
     /// Designated initializer
-    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String?, end: Int?, invoice: String?, invoiceItem: String?, promotionCode: String?, start: Int, subscription: String?, subscriptionItem: String?) {
+    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String?, end: TimeInterval?, invoice: String?, invoiceItem: String?, promotionCode: String?, start: TimeInterval, subscription: String?, subscriptionItem: String?) {
         self.id = id
         self.object = object
         self.checkoutSession = checkoutSession
