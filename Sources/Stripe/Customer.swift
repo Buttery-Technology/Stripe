@@ -26,6 +26,8 @@ public struct Customer: Codable {
     public let created: TimeInterval
     /// Three-letter ISO code for the currency the customer can be charged in.
     public let currency: String?
+    /// ID of the CustomerAccount associated with this customer, if one exists.
+    public let customerAccount: String?
     /// ID of the default payment source for the customer.
     public let defaultSource: String?
     /// Tracks the most recent state change on any invoice belonging to the customer.
@@ -72,7 +74,7 @@ public struct Customer: Codable {
     public let testClock: String?
 
     /// Designated initializer
-    public init(id: String, object: String, address: Address?, balance: Int, businessName: String?, cashBalance: CashBalance?, created: TimeInterval, currency: String?, defaultSource: String?, delinquent: Bool?, customerDescription: String?, discount: Discount?, email: String?, individualName: String?, invoiceCreditBalance: [String: Int]?, invoicePrefix: String?, invoiceSettings: InvoiceSettings?, livemode: Bool, metadata: Metadata?, name: String?, nextInvoiceSequence: Int?, phone: String?, preferredLocales: [String]?, shipping: Shipping?, sources: ListObject<Source>?, subscriptions: ListObject<Subscription>?, tax: Tax?, taxExempt: String?, taxIds: ListObject<TaxId>?, testClock: String?) {
+    public init(id: String, object: String, address: Address?, balance: Int, businessName: String?, cashBalance: CashBalance?, created: TimeInterval, currency: String?, customerAccount: String?, defaultSource: String?, delinquent: Bool?, customerDescription: String?, discount: Discount?, email: String?, individualName: String?, invoiceCreditBalance: [String: Int]?, invoicePrefix: String?, invoiceSettings: InvoiceSettings?, livemode: Bool, metadata: Metadata?, name: String?, nextInvoiceSequence: Int?, phone: String?, preferredLocales: [String]?, shipping: Shipping?, sources: ListObject<Source>?, subscriptions: ListObject<Subscription>?, tax: Tax?, taxExempt: String?, taxIds: ListObject<TaxId>?, testClock: String?) {
         self.id = id
         self.object = object
         self.address = address
@@ -81,6 +83,7 @@ public struct Customer: Codable {
         self.cashBalance = cashBalance
         self.created = created
         self.currency = currency
+        self.customerAccount = customerAccount
         self.defaultSource = defaultSource
         self.delinquent = delinquent
         self.customerDescription = customerDescription
@@ -114,6 +117,7 @@ public struct Customer: Codable {
              cashBalance = "cash_balance",
              created,
              currency,
+             customerAccount = "customer_account",
              defaultSource = "default_source",
              delinquent,
              customerDescription = "description",
