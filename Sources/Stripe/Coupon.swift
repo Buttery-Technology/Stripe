@@ -71,9 +71,12 @@ public struct Coupon: Codable {
     public struct AppliesTo: Codable {
         /// A list of product IDs this coupon applies to.
         public let products: [String]?
+        /// A list of price IDs this coupon applies to.
+        public let prices: [String]?
 
-        public init(products: [String]?) {
+        public init(products: [String]?, prices: [String]?) {
             self.products = products
+            self.prices = prices
         }
     }
 

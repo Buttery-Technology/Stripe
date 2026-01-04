@@ -25,7 +25,7 @@ public struct Address: Codable {
         self.state = state
     }
     
-    enum CodingKeys: String, CodingKey {
+    public enum CodingKeys: String, CodingKey {
         case city,
              country,
              line1,

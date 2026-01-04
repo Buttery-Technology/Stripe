@@ -107,9 +107,9 @@ public struct MeterEventCreateParams: Codable {
     public let payload: [String: String]
 
     /// The time of the event. Measured in seconds since the Unix epoch.
-    public let timestamp: Int?
+    public let timestamp: TimeInterval?
 
-    public init(eventName: String, identifier: String? = nil, payload: [String: String], timestamp: Int? = nil) {
+    public init(eventName: String, identifier: String? = nil, payload: [String: String], timestamp: TimeInterval? = nil) {
         self.eventName = eventName
         self.identifier = identifier
         self.payload = payload
