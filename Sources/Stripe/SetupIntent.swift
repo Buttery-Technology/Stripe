@@ -28,8 +28,12 @@ public struct SetupIntent: Codable {
     public let created: TimeInterval
     /// ID of the Customer this SetupIntent belongs to.
     public let customer: String?
+    /// ID of the CustomerAccount this SetupIntent belongs to, if one exists.
+    public let customerAccount: String?
     /// An arbitrary string attached to the object.
     public let setupIntentDescription: String?
+    /// Payment methods that are specifically excluded from this SetupIntent.
+    public let excludedPaymentMethodTypes: [String]?
     /// Indicates the directions of money movement for which this payment method is intended.
     public let flowDirections: [FlowDirection]?
     /// The error encountered in the previous SetupIntent confirmation.
@@ -61,7 +65,7 @@ public struct SetupIntent: Codable {
     /// Indicates how the payment method is intended to be used in the future.
     public let usage: Usage
 
-    public init(id: String, object: String, application: String?, attachToSelf: Bool?, automaticPaymentMethods: AutomaticPaymentMethods?, cancellationReason: CancellationReason?, clientSecret: String?, created: TimeInterval, customer: String?, setupIntentDescription: String?, flowDirections: [FlowDirection]?, lastSetupError: LastSetupError?, latestAttempt: String?, livemode: Bool, mandate: String?, metadata: Metadata?, nextAction: NextAction?, onBehalfOf: String?, paymentMethod: String?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], singleUseMandate: String?, status: Status, usage: Usage) {
+    public init(id: String, object: String, application: String?, attachToSelf: Bool?, automaticPaymentMethods: AutomaticPaymentMethods?, cancellationReason: CancellationReason?, clientSecret: String?, created: TimeInterval, customer: String?, customerAccount: String?, setupIntentDescription: String?, excludedPaymentMethodTypes: [String]?, flowDirections: [FlowDirection]?, lastSetupError: LastSetupError?, latestAttempt: String?, livemode: Bool, mandate: String?, metadata: Metadata?, nextAction: NextAction?, onBehalfOf: String?, paymentMethod: String?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], singleUseMandate: String?, status: Status, usage: Usage) {
         self.id = id
         self.object = object
         self.application = application
@@ -71,7 +75,9 @@ public struct SetupIntent: Codable {
         self.clientSecret = clientSecret
         self.created = created
         self.customer = customer
+        self.customerAccount = customerAccount
         self.setupIntentDescription = setupIntentDescription
+        self.excludedPaymentMethodTypes = excludedPaymentMethodTypes
         self.flowDirections = flowDirections
         self.lastSetupError = lastSetupError
         self.latestAttempt = latestAttempt
@@ -99,7 +105,9 @@ public struct SetupIntent: Codable {
              clientSecret = "client_secret",
              created,
              customer,
+             customerAccount = "customer_account",
              setupIntentDescription = "description",
+             excludedPaymentMethodTypes = "excluded_payment_method_types",
              flowDirections = "flow_directions",
              lastSetupError = "last_setup_error",
              latestAttempt = "latest_attempt",
@@ -177,6 +185,8 @@ public struct SetupIntent: Codable {
     // MARK: - Last Setup Error
 
     public struct LastSetupError: Codable {
+        /// For some errors that can be handled programmatically, a short string indicating how to resolve the error.
+        public let adviceCode: String?
         /// A code for the error type.
         public let code: String?
         /// A human-readable message providing more details about the error.
@@ -189,29 +199,39 @@ public struct SetupIntent: Codable {
         public let param: String?
         /// The decline code returned by the network.
         public let declineCode: String?
+        /// For card errors resulting from a card issuer decline, a short string indicating how to resolve the error.
+        public let networkAdviceCode: String?
+        /// For card errors resulting from a card issuer decline, a short string indicating the card network's decline code.
+        public let networkDeclineCode: String?
         /// The PaymentMethod object for errors returned on a request involving a PaymentMethod.
         public let paymentMethod: PaymentMethod?
         /// The type of payment method that was used.
         public let paymentMethodType: String?
 
-        public init(code: String?, message: String?, type: ErrorType, docUrl: String?, param: String?, declineCode: String?, paymentMethod: PaymentMethod?, paymentMethodType: String?) {
+        public init(adviceCode: String?, code: String?, message: String?, type: ErrorType, docUrl: String?, param: String?, declineCode: String?, networkAdviceCode: String?, networkDeclineCode: String?, paymentMethod: PaymentMethod?, paymentMethodType: String?) {
+            self.adviceCode = adviceCode
             self.code = code
             self.message = message
             self.type = type
             self.docUrl = docUrl
             self.param = param
             self.declineCode = declineCode
+            self.networkAdviceCode = networkAdviceCode
+            self.networkDeclineCode = networkDeclineCode
             self.paymentMethod = paymentMethod
             self.paymentMethodType = paymentMethodType
         }
 
         public enum CodingKeys: String, CodingKey {
-            case code,
+            case adviceCode = "advice_code",
+                 code,
                  message,
                  type,
                  docUrl = "doc_url",
                  param,
                  declineCode = "decline_code",
+                 networkAdviceCode = "network_advice_code",
+                 networkDeclineCode = "network_decline_code",
                  paymentMethod = "payment_method",
                  paymentMethodType = "payment_method_type"
         }

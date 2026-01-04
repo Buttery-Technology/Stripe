@@ -14,6 +14,10 @@ public struct CheckoutSession: Codable {
     public let id: String
     /// String representing the object's type.
     public let object: String
+    /// Configure behavior after session expiration.
+    public let afterExpiration: AfterExpiration?
+    /// Enables user redeemable promotion codes.
+    public let allowPromotionCodes: Bool?
     /// Total of all items after discounts and taxes are applied.
     public let amountSubtotal: Int?
     /// Total of all items before discounts or taxes are applied.
@@ -36,6 +40,8 @@ public struct CheckoutSession: Codable {
     public let created: TimeInterval
     /// Three-letter ISO currency code.
     public let currency: String?
+    /// Currency conversion details for sessions with automatic currency conversion.
+    public let currencyConversion: CurrencyConversion?
     /// Custom fields displayed on the checkout page.
     public let customFields: [CustomFieldResponse]
     /// Custom text displayed on the checkout page.
@@ -113,9 +119,11 @@ public struct CheckoutSession: Codable {
     /// The URL to the Checkout Session.
     public let url: String?
 
-    public init(id: String, object: String, amountSubtotal: Int?, amountTotal: Int?, automaticTax: SessionAutomaticTax, billingAddressCollection: BillingAddressCollection?, cancelUrl: String?, clientReferenceId: String?, clientSecret: String?, consent: Consent?, consentCollection: ConsentCollection?, created: TimeInterval, currency: String?, customFields: [CustomFieldResponse], customText: CustomText, customer: String?, customerCreation: CustomerCreation?, customerDetails: CustomerDetails?, customerEmail: String?, discounts: [SessionDiscount]?, expiresAt: TimeInterval, invoice: String?, invoiceCreation: InvoiceCreation, lineItems: ListObject<SessionLineItem>?, livemode: Bool, locale: String?, metadata: Metadata?, mode: Mode, paymentIntent: String?, paymentLink: String?, paymentMethodCollection: PaymentMethodCollection?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], paymentStatus: PaymentStatus, phoneNumberCollection: PhoneNumberCollection?, recoveredFrom: String?, redirectOnCompletion: RedirectOnCompletion?, returnUrl: String?, setupIntent: String?, shippingAddressCollection: ShippingAddressCollection?, shippingCost: SessionShippingCost?, shippingOptions: [ShippingOption], status: SessionStatus?, submitType: SubmitType?, subscription: String?, successUrl: String?, taxIdCollection: TaxIdCollection?, totalDetails: TotalDetails?, uiMode: UIMode?, url: String?) {
+    public init(id: String, object: String, afterExpiration: AfterExpiration?, allowPromotionCodes: Bool?, amountSubtotal: Int?, amountTotal: Int?, automaticTax: SessionAutomaticTax, billingAddressCollection: BillingAddressCollection?, cancelUrl: String?, clientReferenceId: String?, clientSecret: String?, consent: Consent?, consentCollection: ConsentCollection?, created: TimeInterval, currency: String?, currencyConversion: CurrencyConversion?, customFields: [CustomFieldResponse], customText: CustomText, customer: String?, customerCreation: CustomerCreation?, customerDetails: CustomerDetails?, customerEmail: String?, discounts: [SessionDiscount]?, expiresAt: TimeInterval, invoice: String?, invoiceCreation: InvoiceCreation, lineItems: ListObject<SessionLineItem>?, livemode: Bool, locale: String?, metadata: Metadata?, mode: Mode, paymentIntent: String?, paymentLink: String?, paymentMethodCollection: PaymentMethodCollection?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], paymentStatus: PaymentStatus, phoneNumberCollection: PhoneNumberCollection?, recoveredFrom: String?, redirectOnCompletion: RedirectOnCompletion?, returnUrl: String?, setupIntent: String?, shippingAddressCollection: ShippingAddressCollection?, shippingCost: SessionShippingCost?, shippingOptions: [ShippingOption], status: SessionStatus?, submitType: SubmitType?, subscription: String?, successUrl: String?, taxIdCollection: TaxIdCollection?, totalDetails: TotalDetails?, uiMode: UIMode?, url: String?) {
         self.id = id
         self.object = object
+        self.afterExpiration = afterExpiration
+        self.allowPromotionCodes = allowPromotionCodes
         self.amountSubtotal = amountSubtotal
         self.amountTotal = amountTotal
         self.automaticTax = automaticTax
@@ -127,6 +135,7 @@ public struct CheckoutSession: Codable {
         self.consentCollection = consentCollection
         self.created = created
         self.currency = currency
+        self.currencyConversion = currencyConversion
         self.customFields = customFields
         self.customText = customText
         self.customer = customer
@@ -170,6 +179,8 @@ public struct CheckoutSession: Codable {
     public enum CodingKeys: String, CodingKey {
         case id,
              object,
+             afterExpiration = "after_expiration",
+             allowPromotionCodes = "allow_promotion_codes",
              amountSubtotal = "amount_subtotal",
              amountTotal = "amount_total",
              automaticTax = "automatic_tax",
@@ -181,6 +192,7 @@ public struct CheckoutSession: Codable {
              consentCollection = "consent_collection",
              created,
              currency,
+             currencyConversion = "currency_conversion",
              customFields = "custom_fields",
              customText = "custom_text",
              customer,
@@ -227,6 +239,73 @@ public struct CheckoutSession: Codable {
         case payment
         case setup
         case subscription
+    }
+
+    // MARK: - After Expiration
+
+    public struct AfterExpiration: Codable {
+        /// Configure a Checkout Session that can be used to recover an expired session.
+        public let recovery: Recovery?
+
+        public init(recovery: Recovery?) {
+            self.recovery = recovery
+        }
+
+        public struct Recovery: Codable {
+            /// Enables user redeemable promotion codes on the recovered Checkout Sessions.
+            public let allowPromotionCodes: Bool
+            /// If true, a recovery URL will be generated.
+            public let enabled: Bool
+            /// The timestamp at which the recovery URL will expire.
+            public let expiresAt: TimeInterval?
+            /// URL that creates a new Checkout Session when clicked.
+            public let url: String?
+
+            public init(allowPromotionCodes: Bool, enabled: Bool, expiresAt: TimeInterval?, url: String?) {
+                self.allowPromotionCodes = allowPromotionCodes
+                self.enabled = enabled
+                self.expiresAt = expiresAt
+                self.url = url
+            }
+
+            public enum CodingKeys: String, CodingKey {
+                case allowPromotionCodes = "allow_promotion_codes",
+                     enabled,
+                     expiresAt = "expires_at",
+                     url
+            }
+        }
+    }
+
+    // MARK: - Currency Conversion
+
+    public struct CurrencyConversion: Codable {
+        /// Total of all items in the presentment currency before discounts or taxes are applied.
+        public let amountSubtotal: Int
+        /// Total of all items in the presentment currency after discounts and taxes are applied.
+        public let amountTotal: Int
+        /// Exchange rate used to convert source currency amounts to the presentment currency.
+        public let fxRate: String
+        /// The currency that will be shown to the customer on checkout, derived from the presentment currency.
+        public let presentmentCurrency: String
+        /// Creation currency of the CheckoutSession before localization.
+        public let sourceCurrency: String
+
+        public init(amountSubtotal: Int, amountTotal: Int, fxRate: String, presentmentCurrency: String, sourceCurrency: String) {
+            self.amountSubtotal = amountSubtotal
+            self.amountTotal = amountTotal
+            self.fxRate = fxRate
+            self.presentmentCurrency = presentmentCurrency
+            self.sourceCurrency = sourceCurrency
+        }
+
+        public enum CodingKeys: String, CodingKey {
+            case amountSubtotal = "amount_subtotal",
+                 amountTotal = "amount_total",
+                 fxRate = "fx_rate",
+                 presentmentCurrency = "presentment_currency",
+                 sourceCurrency = "source_currency"
+        }
     }
 
     // MARK: - Session Status
