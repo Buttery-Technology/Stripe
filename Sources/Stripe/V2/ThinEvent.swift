@@ -200,6 +200,14 @@ public struct V2Event: Codable {
     }
 }
 
+// MARK: - JSONNull (Cross-platform null representation)
+
+/// A cross-platform representation of JSON null.
+/// Used instead of NSNull for Linux compatibility.
+public struct JSONNull: Equatable, Hashable {
+    public init() {}
+}
+
 // MARK: - AnyCodable Helper
 
 /// A type-erased Codable value for handling dynamic JSON structures.
@@ -214,7 +222,7 @@ public struct AnyCodable: Codable {
         let container = try decoder.singleValueContainer()
 
         if container.decodeNil() {
-            self.value = NSNull()
+            self.value = JSONNull()
         } else if let bool = try? container.decode(Bool.self) {
             self.value = bool
         } else if let int = try? container.decode(Int.self) {
@@ -236,7 +244,7 @@ public struct AnyCodable: Codable {
         var container = encoder.singleValueContainer()
 
         switch value {
-        case is NSNull:
+        case is JSONNull:
             try container.encodeNil()
         case let bool as Bool:
             try container.encode(bool)
