@@ -409,9 +409,9 @@ public struct PaymentIntent: Codable {
 
             public struct CustomerNotification: Codable {
                 public let approvalRequested: Bool?
-                public let completesAt: Date?
+                public let completesAt: TimeInterval?
 
-                public init(approvalRequested: Bool?, completesAt: Date?) {
+                public init(approvalRequested: Bool?, completesAt: TimeInterval?) {
                     self.approvalRequested = approvalRequested
                     self.completesAt = completesAt
                 }
