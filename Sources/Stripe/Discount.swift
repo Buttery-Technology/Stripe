@@ -13,6 +13,8 @@ public struct Discount: Codable {
     public let checkoutSession: String?
     public let coupon: Coupon
     public let customer: String?
+    /// ID of the CustomerAccount associated with this discount, if one exists.
+    public let customerAccount: String?
     /// Date the discount ends. Measured in seconds since the Unix epoch.
     public let end: TimeInterval?
     public let invoice: String?
@@ -24,12 +26,13 @@ public struct Discount: Codable {
     public let subscriptionItem: String?
 
     /// Designated initializer
-    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String?, end: TimeInterval?, invoice: String?, invoiceItem: String?, promotionCode: String?, start: TimeInterval, subscription: String?, subscriptionItem: String?) {
+    public init(id: String, object: String, checkoutSession: String?, coupon: Coupon, customer: String?, customerAccount: String?, end: TimeInterval?, invoice: String?, invoiceItem: String?, promotionCode: String?, start: TimeInterval, subscription: String?, subscriptionItem: String?) {
         self.id = id
         self.object = object
         self.checkoutSession = checkoutSession
         self.coupon = coupon
         self.customer = customer
+        self.customerAccount = customerAccount
         self.end = end
         self.invoice = invoice
         self.invoiceItem = invoiceItem
@@ -42,7 +45,9 @@ public struct Discount: Codable {
     public enum CodingKeys: String, CodingKey {
         case id, object
         case checkoutSession = "checkout_session"
-        case coupon, customer, end, invoice
+        case coupon, customer
+        case customerAccount = "customer_account"
+        case end, invoice
         case invoiceItem = "invoice_item"
         case promotionCode = "promotion_code"
         case start, subscription
