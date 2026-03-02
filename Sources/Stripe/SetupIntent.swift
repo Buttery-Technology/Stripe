@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct SetupIntent: Codable {
+public struct SetupIntent: Codable, Sendable {
     public static let schema = "setup_intents"
 
     /// Unique identifier for the object.
@@ -127,7 +127,7 @@ public struct SetupIntent: Codable {
 
     // MARK: - Status
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case canceled
         case processing
         case requiresAction = "requires_action"
@@ -138,7 +138,7 @@ public struct SetupIntent: Codable {
 
     // MARK: - Cancellation Reason
 
-    public enum CancellationReason: String, Codable {
+    public enum CancellationReason: String, Codable, Sendable {
         case abandoned
         case duplicate
         case requestedByCustomer = "requested_by_customer"
@@ -146,21 +146,21 @@ public struct SetupIntent: Codable {
 
     // MARK: - Usage
 
-    public enum Usage: String, Codable {
+    public enum Usage: String, Codable, Sendable {
         case offSession = "off_session"
         case onSession = "on_session"
     }
 
     // MARK: - Flow Direction
 
-    public enum FlowDirection: String, Codable {
+    public enum FlowDirection: String, Codable, Sendable {
         case inbound
         case outbound
     }
 
     // MARK: - Automatic Payment Methods
 
-    public struct AutomaticPaymentMethods: Codable {
+    public struct AutomaticPaymentMethods: Codable, Sendable {
         /// Controls whether this SetupIntent will accept redirect-based payment methods.
         public let allowRedirects: AllowRedirects?
         /// Automatically calculates compatible payment methods.
@@ -176,7 +176,7 @@ public struct SetupIntent: Codable {
                  enabled
         }
 
-        public enum AllowRedirects: String, Codable {
+        public enum AllowRedirects: String, Codable, Sendable {
             case always
             case never
         }
@@ -184,7 +184,7 @@ public struct SetupIntent: Codable {
 
     // MARK: - Last Setup Error
 
-    public struct LastSetupError: Codable {
+    public struct LastSetupError: Codable, Sendable {
         /// For some errors that can be handled programmatically, a short string indicating how to resolve the error.
         public let adviceCode: String?
         /// A code for the error type.
@@ -236,7 +236,7 @@ public struct SetupIntent: Codable {
                  paymentMethodType = "payment_method_type"
         }
 
-        public enum ErrorType: String, Codable {
+        public enum ErrorType: String, Codable, Sendable {
             case apiError = "api_error"
             case cardError = "card_error"
             case idempotencyError = "idempotency_error"
@@ -246,7 +246,7 @@ public struct SetupIntent: Codable {
 
     // MARK: - Next Action
 
-    public struct NextAction: Codable {
+    public struct NextAction: Codable, Sendable {
         /// Type of the next action to perform.
         public let type: String
         /// Contains instructions for redirecting the customer.
@@ -266,7 +266,7 @@ public struct SetupIntent: Codable {
                  verifyWithMicrodeposits = "verify_with_microdeposits"
         }
 
-        public struct RedirectToUrl: Codable {
+        public struct RedirectToUrl: Codable, Sendable {
             /// The URL you must redirect your customer to.
             public let url: String?
             /// The URL the customer will be redirected to after completing the action.
@@ -283,7 +283,7 @@ public struct SetupIntent: Codable {
             }
         }
 
-        public struct VerifyWithMicrodeposits: Codable {
+        public struct VerifyWithMicrodeposits: Codable, Sendable {
             /// The timestamp when the microdeposits are expected to land.
             public let arrivalDate: TimeInterval?
             /// The URL for the hosted verification page.
@@ -303,7 +303,7 @@ public struct SetupIntent: Codable {
                      microdepositType = "microdeposit_type"
             }
 
-            public enum MicrodepositType: String, Codable {
+            public enum MicrodepositType: String, Codable, Sendable {
                 case amounts
                 case descriptorCode = "descriptor_code"
             }
@@ -312,7 +312,7 @@ public struct SetupIntent: Codable {
 
     // MARK: - Payment Method Configuration Details
 
-    public struct PaymentMethodConfigurationDetails: Codable {
+    public struct PaymentMethodConfigurationDetails: Codable, Sendable {
         /// ID of the payment method configuration.
         public let id: String
         /// Parent payment method configuration ID.

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ShippingCost: Codable {
+public struct ShippingCost: Codable, Sendable {
     /// Total shipping cost before any discounts or taxes are applied.
     public let amountSubtotal: Int
     /// Total tax amount applied due to shipping costs. If no tax was applied, defaults to 0.

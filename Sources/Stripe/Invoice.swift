@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Invoice: Codable {
+public struct Invoice: Codable, Sendable {
     public static let schema = "invoices"
 
     /// Unique identifier for the object.
@@ -331,7 +331,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Status
 
-    public enum InvoiceStatus: String, Codable {
+    public enum InvoiceStatus: String, Codable, Sendable {
         case draft
         case open
         case paid
@@ -341,7 +341,7 @@ public struct Invoice: Codable {
 
     // MARK: - Billing Reason
 
-    public enum BillingReason: String, Codable {
+    public enum BillingReason: String, Codable, Sendable {
         case automaticPendingInvoiceItemInvoice = "automatic_pending_invoice_item_invoice"
         case manual
         case quoteAccept = "quote_accept"
@@ -355,14 +355,14 @@ public struct Invoice: Codable {
 
     // MARK: - Collection Method
 
-    public enum CollectionMethod: String, Codable {
+    public enum CollectionMethod: String, Codable, Sendable {
         case chargeAutomatically = "charge_automatically"
         case sendInvoice = "send_invoice"
     }
 
     // MARK: - Customer Tax Exempt
 
-    public enum CustomerTaxExempt: String, Codable {
+    public enum CustomerTaxExempt: String, Codable, Sendable {
         case exempt
         case none
         case reverse
@@ -370,7 +370,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Automatic Tax
 
-    public struct InvoiceAutomaticTax: Codable {
+    public struct InvoiceAutomaticTax: Codable, Sendable {
         /// Whether automatic tax collection is enabled.
         public let enabled: Bool
         /// The reason automatic tax is disabled.
@@ -394,7 +394,7 @@ public struct Invoice: Codable {
                  status
         }
 
-        public enum AutomaticTaxStatus: String, Codable {
+        public enum AutomaticTaxStatus: String, Codable, Sendable {
             case complete
             case failed
             case requiresLocationInputs = "requires_location_inputs"
@@ -403,7 +403,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Custom Field
 
-    public struct InvoiceCustomField: Codable {
+    public struct InvoiceCustomField: Codable, Sendable {
         /// The name of the custom field.
         public let name: String
         /// The value of the custom field.
@@ -417,7 +417,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Customer Tax ID
 
-    public struct InvoiceCustomerTaxId: Codable {
+    public struct InvoiceCustomerTaxId: Codable, Sendable {
         /// The type of the tax ID.
         public let type: String
         /// The value of the tax ID.
@@ -431,7 +431,7 @@ public struct Invoice: Codable {
 
     // MARK: - Issuer
 
-    public struct Issuer: Codable {
+    public struct Issuer: Codable, Sendable {
         /// The connected account being referenced.
         public let account: String?
         /// Type of the account referenced.
@@ -442,7 +442,7 @@ public struct Invoice: Codable {
             self.type = type
         }
 
-        public enum IssuerType: String, Codable {
+        public enum IssuerType: String, Codable, Sendable {
             case account
             case `self`
         }
@@ -450,7 +450,7 @@ public struct Invoice: Codable {
 
     // MARK: - From Invoice
 
-    public struct FromInvoice: Codable {
+    public struct FromInvoice: Codable, Sendable {
         /// The relation between this invoice and the cloned invoice.
         public let action: String
         /// The invoice that was cloned.
@@ -464,7 +464,7 @@ public struct Invoice: Codable {
 
     // MARK: - Last Finalization Error
 
-    public struct LastFinalizationError: Codable {
+    public struct LastFinalizationError: Codable, Sendable {
         /// A code for the error type.
         public let code: String?
         /// A URL for the documentation about this error.
@@ -492,7 +492,7 @@ public struct Invoice: Codable {
                  type
         }
 
-        public enum ErrorType: String, Codable {
+        public enum ErrorType: String, Codable, Sendable {
             case apiError = "api_error"
             case cardError = "card_error"
             case idempotencyError = "idempotency_error"
@@ -502,7 +502,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Payment Settings
 
-    public struct InvoicePaymentSettings: Codable {
+    public struct InvoicePaymentSettings: Codable, Sendable {
         /// ID of the mandate to be used for this invoice.
         public let defaultMandate: String?
         /// Payment-method-specific configuration.
@@ -525,7 +525,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Rendering
 
-    public struct InvoiceRendering: Codable {
+    public struct InvoiceRendering: Codable, Sendable {
         /// How line-item taxes are rendered on invoice.
         public let amountTaxDisplay: String?
         /// Invoice pdf rendering options.
@@ -549,7 +549,7 @@ public struct Invoice: Codable {
                  templateVersion = "template_version"
         }
 
-        public struct PDFRendering: Codable {
+        public struct PDFRendering: Codable, Sendable {
             /// Page size for invoice PDF.
             public let pageSize: String?
 
@@ -565,7 +565,7 @@ public struct Invoice: Codable {
 
     // MARK: - Invoice Shipping Cost
 
-    public struct InvoiceShippingCost: Codable {
+    public struct InvoiceShippingCost: Codable, Sendable {
         /// Total shipping cost before any taxes are applied.
         public let amountSubtotal: Int
         /// Total tax amount applied due to shipping costs.
@@ -593,7 +593,7 @@ public struct Invoice: Codable {
                  taxes
         }
 
-        public struct ShippingTax: Codable {
+        public struct ShippingTax: Codable, Sendable {
             /// Amount of tax applied for this rate.
             public let amount: Int
             /// The tax rate applied.
@@ -608,7 +608,7 @@ public struct Invoice: Codable {
 
     // MARK: - Status Transitions
 
-    public struct StatusTransitions: Codable {
+    public struct StatusTransitions: Codable, Sendable {
         /// The time that the invoice draft was finalized.
         public let finalizedAt: TimeInterval?
         /// The time that the invoice was marked uncollectible.
@@ -635,7 +635,7 @@ public struct Invoice: Codable {
 
     // MARK: - Threshold Reason
 
-    public struct ThresholdReason: Codable {
+    public struct ThresholdReason: Codable, Sendable {
         /// The total invoice amount threshold boundary.
         public let amountGte: Int?
         /// Indicates which line items triggered a threshold invoice.
@@ -651,7 +651,7 @@ public struct Invoice: Codable {
                  itemReasons = "item_reasons"
         }
 
-        public struct ItemReason: Codable {
+        public struct ItemReason: Codable, Sendable {
             /// The IDs of the line items that triggered the threshold invoice.
             public let lineItemIds: [String]
             /// The quantity threshold boundary that applied to the given line item.
@@ -671,7 +671,7 @@ public struct Invoice: Codable {
 
     // MARK: - Total Discount Amount
 
-    public struct TotalDiscountAmount: Codable {
+    public struct TotalDiscountAmount: Codable, Sendable {
         /// The amount discounted.
         public let amount: Int
         /// The discount that was applied.
@@ -685,7 +685,7 @@ public struct Invoice: Codable {
 
     // MARK: - Total Tax Amount
 
-    public struct TotalTaxAmount: Codable {
+    public struct TotalTaxAmount: Codable, Sendable {
         /// The amount of the tax.
         public let amount: Int
         /// Whether this tax amount is inclusive or exclusive.
@@ -709,7 +709,7 @@ public struct Invoice: Codable {
     // MARK: - Confirmation Secret
 
     /// The PaymentIntent client secret when invoice is finalized.
-    public struct ConfirmationSecret: Codable {
+    public struct ConfirmationSecret: Codable, Sendable {
         /// The client secret of the PaymentIntent created during finalization.
         public let clientSecret: String?
         /// Type of confirmation secret.
@@ -729,7 +729,7 @@ public struct Invoice: Codable {
     // MARK: - Invoice Parent
 
     /// The parent that generated this invoice.
-    public struct InvoiceParent: Codable {
+    public struct InvoiceParent: Codable, Sendable {
         /// The quote details if generated from a quote.
         public let quoteDetails: QuoteDetails?
         /// The subscription details if generated from a subscription.
@@ -749,7 +749,7 @@ public struct Invoice: Codable {
                  type
         }
 
-        public struct QuoteDetails: Codable {
+        public struct QuoteDetails: Codable, Sendable {
             /// The quote that generated this invoice.
             public let quote: String
 
@@ -758,7 +758,7 @@ public struct Invoice: Codable {
             }
         }
 
-        public struct SubscriptionDetails: Codable {
+        public struct SubscriptionDetails: Codable, Sendable {
             /// The subscription that generated this invoice.
             public let subscription: String
 
@@ -771,7 +771,7 @@ public struct Invoice: Codable {
     // MARK: - Invoice Payments
 
     /// List of payments for this invoice.
-    public struct InvoicePayments: Codable {
+    public struct InvoicePayments: Codable, Sendable {
         /// The list object type.
         public let object: String
         /// The list of payment data.
@@ -795,7 +795,7 @@ public struct Invoice: Codable {
                  url
         }
 
-        public struct InvoicePayment: Codable {
+        public struct InvoicePayment: Codable, Sendable {
             /// Payment object ID.
             public let payment: String?
 
@@ -808,7 +808,7 @@ public struct Invoice: Codable {
     // MARK: - Total Pretax Credit Amount
 
     /// Aggregate pretax credit amount.
-    public struct TotalPretaxCreditAmount: Codable {
+    public struct TotalPretaxCreditAmount: Codable, Sendable {
         /// The amount of the pretax credit.
         public let amount: Int
         /// The credit balance transaction.
@@ -836,7 +836,7 @@ public struct Invoice: Codable {
     // MARK: - Total Tax
 
     /// Aggregate tax information.
-    public struct TotalTax: Codable {
+    public struct TotalTax: Codable, Sendable {
         /// The amount of tax.
         public let amount: Int
         /// Whether this tax is inclusive.
@@ -860,7 +860,7 @@ public struct Invoice: Codable {
                  taxabilityReason = "taxability_reason"
         }
 
-        public struct TaxRateDetails: Codable {
+        public struct TaxRateDetails: Codable, Sendable {
             /// The tax rate percentage.
             public let percentageDecimal: String?
             /// The tax type.
@@ -881,7 +881,7 @@ public struct Invoice: Codable {
 
 // MARK: - Invoice Line Item
 
-public struct InvoiceLineItem: Codable {
+public struct InvoiceLineItem: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object's type.
@@ -969,12 +969,12 @@ public struct InvoiceLineItem: Codable {
              type
     }
 
-    public enum LineItemType: String, Codable {
+    public enum LineItemType: String, Codable, Sendable {
         case invoiceitem
         case subscription
     }
 
-    public struct Period: Codable {
+    public struct Period: Codable, Sendable {
         /// The end of the period.
         public let end: TimeInterval
         /// The start of the period.
@@ -986,7 +986,7 @@ public struct InvoiceLineItem: Codable {
         }
     }
 
-    public struct DiscountAmount: Codable {
+    public struct DiscountAmount: Codable, Sendable {
         /// The amount discounted.
         public let amount: Int
         /// The discount that was applied.
@@ -998,7 +998,7 @@ public struct InvoiceLineItem: Codable {
         }
     }
 
-    public struct LineTaxAmount: Codable {
+    public struct LineTaxAmount: Codable, Sendable {
         /// The amount of the tax.
         public let amount: Int
         /// Whether this tax amount is inclusive or exclusive.

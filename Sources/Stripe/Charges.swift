@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Charges: Codable {
+public struct Charges: Codable, Sendable {
     public static let schema = "charges"
     
     public let object: String

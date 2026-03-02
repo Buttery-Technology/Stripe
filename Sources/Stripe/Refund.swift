@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Refund: Codable {
+public struct Refund: Codable, Sendable {
     public static let schema = "refunds"
 
     /// Unique identifier for the object.
@@ -109,14 +109,14 @@ public struct Refund: Codable {
              customer
     }
 
-    public enum Reason: String, Codable {
+    public enum Reason: String, Codable, Sendable {
         case duplicate
         case fraudulent
         case requestedByCustomer = "requested_by_customer"
         case expiredUncapturedCharge = "expired_uncaptured_charge"
     }
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case pending
         case requiresAction = "requires_action"
         case succeeded
@@ -124,14 +124,14 @@ public struct Refund: Codable {
         case canceled
     }
 
-    public enum PendingReason: String, Codable {
+    public enum PendingReason: String, Codable, Sendable {
         case processing
         case insufficientFunds = "insufficient_funds"
         case chargePending = "charge_pending"
     }
 
     // MARK: - Destination Details
-    public struct DestinationDetails: Codable {
+    public struct DestinationDetails: Codable, Sendable {
         public let card: CardDetails?
         public let type: String
 
@@ -140,7 +140,7 @@ public struct Refund: Codable {
             self.type = type
         }
 
-        public struct CardDetails: Codable {
+        public struct CardDetails: Codable, Sendable {
             /// Value of the reference number assigned to the refund.
             public let reference: String?
             /// Status of the reference number on the refund.
@@ -167,7 +167,7 @@ public struct Refund: Codable {
     }
 
     // MARK: - Next Action
-    public struct NextAction: Codable {
+    public struct NextAction: Codable, Sendable {
         /// Contains the refund details.
         public let displayDetails: DisplayDetails?
         /// Type of the next action to perform.
@@ -183,7 +183,7 @@ public struct Refund: Codable {
                  type
         }
 
-        public struct DisplayDetails: Codable {
+        public struct DisplayDetails: Codable, Sendable {
             public let emailSent: EmailSent?
             public let expiresAt: TimeInterval?
 
@@ -197,7 +197,7 @@ public struct Refund: Codable {
                      expiresAt = "expires_at"
             }
 
-            public struct EmailSent: Codable {
+            public struct EmailSent: Codable, Sendable {
                 public let emailSentAt: TimeInterval
                 public let emailSentTo: String
 

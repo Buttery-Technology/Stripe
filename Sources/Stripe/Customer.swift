@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Customer: Codable {
+public struct Customer: Codable, Sendable {
     public static let schema = "customers"
 
     /// Unique identifier for the object.
@@ -143,7 +143,7 @@ public struct Customer: Codable {
     }
 
     // MARK: - Cash Balance
-    public struct CashBalance: Codable {
+    public struct CashBalance: Codable, Sendable {
         /// String representing the object's type.
         public let object: String
         /// A hash of all cash balances available to this customer by currency.
@@ -163,7 +163,7 @@ public struct Customer: Codable {
             self.settings = settings
         }
 
-        public struct Settings: Codable {
+        public struct Settings: Codable, Sendable {
             /// The configuration for how funds that land in the customer cash balance are reconciled.
             public let reconciliationMode: String
             /// Whether the customer's cash balance settings are set on the customer or are using the account default.
@@ -182,7 +182,7 @@ public struct Customer: Codable {
     }
 
     // MARK: - Source (simplified)
-    public struct Source: Codable {
+    public struct Source: Codable, Sendable {
         /// Unique identifier for the object.
         public let id: String
         /// String representing the object's type.
@@ -251,7 +251,7 @@ public struct Customer: Codable {
         }
     }
 
-    public struct ReturnObject: Codable {
+    public struct ReturnObject: Codable, Sendable {
         public let object: String
         public let url: String
         public let hasMore: Bool
@@ -274,7 +274,7 @@ public struct Customer: Codable {
     }
 
     // MARK: - Tax
-    public struct Tax: Codable {
+    public struct Tax: Codable, Sendable {
         /// Surfaces if automatic tax computation is possible given the current customer location information.
         public let automaticTax: AutomaticTaxStatus
         /// A recent IP address of the customer used for tax reporting and tax location inference.
@@ -294,14 +294,14 @@ public struct Customer: Codable {
             case location
         }
 
-        public enum AutomaticTaxStatus: String, Codable {
+        public enum AutomaticTaxStatus: String, Codable, Sendable {
             case supported
             case notCollecting = "not_collecting"
             case unrecognizedLocation = "unrecognized_location"
             case failed
         }
 
-        public struct TaxLocation: Codable {
+        public struct TaxLocation: Codable, Sendable {
             /// The customer's country as identified by Stripe Tax.
             public let country: String?
             /// The data source used to infer the customer's location.
@@ -315,7 +315,7 @@ public struct Customer: Codable {
                 self.state = state
             }
 
-            public enum LocationSource: String, Codable {
+            public enum LocationSource: String, Codable, Sendable {
                 case billingAddress = "billing_address"
                 case ipAddress = "ip_address"
                 case paymentMethod = "payment_method"
@@ -325,7 +325,7 @@ public struct Customer: Codable {
     }
 
     // MARK: - Tax ID
-    public struct TaxId: Codable {
+    public struct TaxId: Codable, Sendable {
         /// Unique identifier for the object.
         public let id: String
         /// String representing the object's type.
@@ -357,7 +357,7 @@ public struct Customer: Codable {
             self.verification = verification
         }
 
-        public struct Verification: Codable {
+        public struct Verification: Codable, Sendable {
             /// Verification status.
             public let status: Status
             /// Verified address.
@@ -377,7 +377,7 @@ public struct Customer: Codable {
                 case verifiedName = "verified_name"
             }
 
-            public enum Status: String, Codable {
+            public enum Status: String, Codable, Sendable {
                 case pending
                 case verified
                 case unverified

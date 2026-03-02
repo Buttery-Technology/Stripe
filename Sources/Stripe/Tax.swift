@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Tax: Codable {
+public struct Tax: Codable, Sendable {
     /// Amount of tax applied for this rate.
     public let amount: Int
     /// The tax rate applied

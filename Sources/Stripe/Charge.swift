@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Charge: Codable {
+public struct Charge: Codable, Sendable {
     public static let schema = "charges"
 
     /// Unique identifier for the object.
@@ -203,14 +203,14 @@ public struct Charge: Codable {
     }
 
     // MARK: - Status
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case succeeded
         case pending
         case failed
     }
 
     // MARK: - Fraud Details
-    public struct FraudDetails: Codable {
+    public struct FraudDetails: Codable, Sendable {
         /// Assessments from Stripe. If set, the value is `fraudulent`.
         public let stripeReport: String?
         /// Assessments reported by you. If set, possible values are `safe` and `fraudulent`.
@@ -228,7 +228,7 @@ public struct Charge: Codable {
     }
 
     // MARK: - Outcome
-    public struct Outcome: Codable {
+    public struct Outcome: Codable, Sendable {
         /// For charges declined by the network, a 2 digit code indicating advice given by the network on how to proceed.
         public let adviceCode: String?
         /// For charges declined by the network, a brand-specific decline code providing more network-specific information.
@@ -278,7 +278,7 @@ public struct Charge: Codable {
     }
 
     // MARK: - Radar Options
-    public struct RadarOptions: Codable {
+    public struct RadarOptions: Codable, Sendable {
         /// A Radar Session is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
         public let session: String?
 
@@ -288,7 +288,7 @@ public struct Charge: Codable {
     }
 
     // MARK: - Charge Shipping
-    public struct ChargeShipping: Codable {
+    public struct ChargeShipping: Codable, Sendable {
         /// Recipient address.
         public let address: Address?
         /// The delivery service that shipped a physical product, such as Fedex, UPS, USPS, etc.
@@ -318,7 +318,7 @@ public struct Charge: Codable {
     }
 
     // MARK: - Transfer Data
-    public struct TransferData: Codable {
+    public struct TransferData: Codable, Sendable {
         /// The amount transferred to the destination account, if specified. By default, the entire charge amount is transferred to the destination account.
         public let amount: Int?
         /// ID of an existing, connected Stripe account to transfer funds to if transfer_data was specified in the charge request.
@@ -331,7 +331,7 @@ public struct Charge: Codable {
     }
 
     // MARK: - Presentment Details
-    public struct PresentmentDetails: Codable {
+    public struct PresentmentDetails: Codable, Sendable {
         /// Amount intended to be collected by this payment, in presentment currency.
         public let presentmentAmount: Int?
         /// Currency for the charge, in presentment currency.
@@ -350,7 +350,7 @@ public struct Charge: Codable {
 
     // MARK: - Payment Method Details
     /// Details about the payment method at the time of the transaction.
-    public struct PaymentMethodDetails: Codable {
+    public struct PaymentMethodDetails: Codable, Sendable {
         /// The type of payment method used.
         public let type: String
 
@@ -363,7 +363,7 @@ public struct Charge: Codable {
         }
 
         /// Card payment method details.
-        public struct CardDetails: Codable {
+        public struct CardDetails: Codable, Sendable {
             /// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `link`, `mastercard`, `unionpay`, `visa`, or `unknown`.
             public let brand: String?
             /// Two-letter ISO code representing the country of the card.
@@ -404,7 +404,7 @@ public struct Charge: Codable {
             }
 
             /// 3D Secure authentication details.
-            public struct ThreeDSecure: Codable {
+            public struct ThreeDSecure: Codable, Sendable {
                 /// The outcome of the 3D Secure authentication request.
                 public let authenticationFlow: String?
                 /// Result of the 3D Secure authentication.

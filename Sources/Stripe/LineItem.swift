@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LineItem: Codable {
+public struct LineItem: Codable, Sendable {
     /// String representing the object’s type.
     ///
     /// Objects of the same type share the same value. Always has the value `list`.
@@ -36,7 +36,7 @@ public struct LineItem: Codable {
 }
 
 extension LineItem {
-    public struct LineItemData: Codable {
+    public struct LineItemData: Codable, Sendable {
         /// Unique identifier for the object.
         public let id: String
         /// String representing the object’s type.
@@ -99,7 +99,7 @@ extension LineItem {
                  taxes
         }
         
-        public struct LineItemDataDiscount: Codable {
+        public struct LineItemDataDiscount: Codable, Sendable {
             /// The amount discounted.
             public let amount: Int
             /// The discount applied.

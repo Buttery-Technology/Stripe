@@ -9,7 +9,7 @@ import Foundation
 
 extension Discount {
     /// Represents a value that can be an id string or a `Discount` object.
-    public enum Expandable: Codable {
+    public enum Expandable: Codable, Sendable {
         case id(String)
         case object(Discount)
         
@@ -36,7 +36,7 @@ extension Discount {
     }
     
     /// Represents a value that can be an id string or an array of `Discount` object.
-    public enum ExpandableArray: Codable {
+    public enum ExpandableArray: Codable, Sendable {
         case id(String)
         case object([Discount])
         

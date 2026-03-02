@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Price: Codable {
+public struct Price: Codable, Sendable {
     public static let schema = "prices"
 
     /// Unique identifier for the object.
@@ -103,7 +103,7 @@ public struct Price: Codable {
     }
 
     // MARK: - Currency Option
-    public struct CurrencyOption: Codable {
+    public struct CurrencyOption: Codable, Sendable {
         /// When set, provides configuration for the amount to be adjusted by the customer during Checkout Sessions and Payment Links.
         public let customUnitAmount: CustomUnitAmount?
         /// Specifies whether the price is considered inclusive of taxes or exclusive of taxes.
@@ -133,7 +133,7 @@ public struct Price: Codable {
     }
 
     // MARK: - Custom Unit Amount
-    public struct CustomUnitAmount: Codable {
+    public struct CustomUnitAmount: Codable, Sendable {
         /// The maximum unit amount the customer can specify for this item.
         public let maximum: Int?
         /// The minimum unit amount the customer can specify for this item.
@@ -148,7 +148,7 @@ public struct Price: Codable {
         }
     }
     
-    public struct Recurring: Codable {
+    public struct Recurring: Codable, Sendable {
         /// Specifies a usage aggregation strategy for prices of `usage_type=metered`. Allowed values are `sum` for summing up all usage during a period, `last_during_period` for using the last usage record reported within a period, `last_ever` for using the last usage record ever (across period bounds) or `max` which uses the usage record with the maximum reported usage during a period. Defaults to `sum`.
         public let aggregateUsage: String?
         /// The frequency at which a subscription is billed. One of `day`, `week`, `month` or `year`.
@@ -177,16 +177,16 @@ public struct Price: Codable {
                  usageType = "usage_type"
         }
 
-        public enum RecurringInterval: String, Codable {
+        public enum RecurringInterval: String, Codable, Sendable {
             case day, month, week, year
         }
 
-        public enum UsageType: String, Codable {
+        public enum UsageType: String, Codable, Sendable {
             case licensed, metered
         }
     }
     
-    public struct Tier: Codable {
+    public struct Tier: Codable, Sendable {
         /// Price for the entire tier.
         public let flatAmount: Int?
         /// Same as `flat_amount`, but contains a decimal value with at most 12 decimal places.
@@ -216,7 +216,7 @@ public struct Price: Codable {
         }
     }
     
-    public struct TransformQuantity: Codable {
+    public struct TransformQuantity: Codable, Sendable {
         /// Divide usage by this number.
         public let divideBy: Int
         /// After division, either round the result `up` or `down`.
@@ -233,30 +233,30 @@ public struct Price: Codable {
                  round
         }
         
-        public enum Round: String, Codable {
+        public enum Round: String, Codable, Sendable {
             case down, up
         }
     }
 
     // MARK: - Enums
 
-    public enum BillingScheme: String, Codable {
+    public enum BillingScheme: String, Codable, Sendable {
         case perUnit = "per_unit"
         case tiered
     }
 
-    public enum TaxBehavior: String, Codable {
+    public enum TaxBehavior: String, Codable, Sendable {
         case exclusive
         case inclusive
         case unspecified
     }
 
-    public enum TiersMode: String, Codable {
+    public enum TiersMode: String, Codable, Sendable {
         case graduated
         case volume
     }
 
-    public enum PriceType: String, Codable {
+    public enum PriceType: String, Codable, Sendable {
         case oneTime = "one_time"
         case recurring
     }

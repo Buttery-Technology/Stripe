@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct InvoiceSettings: Codable {
+public struct InvoiceSettings: Codable, Sendable {
     public let customFields: [CustomField]?
     public let defaultPaymentMethod: String?
     public let footer: String?

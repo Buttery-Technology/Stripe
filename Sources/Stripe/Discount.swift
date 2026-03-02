@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Discount: Codable {
+public struct Discount: Codable, Sendable {
     public let id: String
     public let object: String
     public let checkoutSession: String?

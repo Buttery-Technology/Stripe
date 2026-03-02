@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CheckoutSession: Codable {
+public struct CheckoutSession: Codable, Sendable {
     public static let schema = "checkout/sessions"
 
     /// Unique identifier for the object.
@@ -235,7 +235,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Mode
 
-    public enum Mode: String, Codable {
+    public enum Mode: String, Codable, Sendable {
         case payment
         case setup
         case subscription
@@ -243,7 +243,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - After Expiration
 
-    public struct AfterExpiration: Codable {
+    public struct AfterExpiration: Codable, Sendable {
         /// Configure a Checkout Session that can be used to recover an expired session.
         public let recovery: Recovery?
 
@@ -251,7 +251,7 @@ public struct CheckoutSession: Codable {
             self.recovery = recovery
         }
 
-        public struct Recovery: Codable {
+        public struct Recovery: Codable, Sendable {
             /// Enables user redeemable promotion codes on the recovered Checkout Sessions.
             public let allowPromotionCodes: Bool
             /// If true, a recovery URL will be generated.
@@ -279,7 +279,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Currency Conversion
 
-    public struct CurrencyConversion: Codable {
+    public struct CurrencyConversion: Codable, Sendable {
         /// Total of all items in the presentment currency before discounts or taxes are applied.
         public let amountSubtotal: Int
         /// Total of all items in the presentment currency after discounts and taxes are applied.
@@ -310,7 +310,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Session Status
 
-    public enum SessionStatus: String, Codable {
+    public enum SessionStatus: String, Codable, Sendable {
         case complete
         case expired
         case open
@@ -318,7 +318,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Payment Status
 
-    public enum PaymentStatus: String, Codable {
+    public enum PaymentStatus: String, Codable, Sendable {
         case noPaymentRequired = "no_payment_required"
         case paid
         case unpaid
@@ -326,28 +326,28 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Billing Address Collection
 
-    public enum BillingAddressCollection: String, Codable {
+    public enum BillingAddressCollection: String, Codable, Sendable {
         case auto
         case required
     }
 
     // MARK: - Customer Creation
 
-    public enum CustomerCreation: String, Codable {
+    public enum CustomerCreation: String, Codable, Sendable {
         case always
         case ifRequired = "if_required"
     }
 
     // MARK: - Payment Method Collection
 
-    public enum PaymentMethodCollection: String, Codable {
+    public enum PaymentMethodCollection: String, Codable, Sendable {
         case always
         case ifRequired = "if_required"
     }
 
     // MARK: - Submit Type
 
-    public enum SubmitType: String, Codable {
+    public enum SubmitType: String, Codable, Sendable {
         case auto
         case book
         case donate
@@ -357,7 +357,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Redirect On Completion
 
-    public enum RedirectOnCompletion: String, Codable {
+    public enum RedirectOnCompletion: String, Codable, Sendable {
         case always
         case ifRequired = "if_required"
         case never
@@ -365,14 +365,14 @@ public struct CheckoutSession: Codable {
 
     // MARK: - UI Mode
 
-    public enum UIMode: String, Codable {
+    public enum UIMode: String, Codable, Sendable {
         case embedded
         case hosted
     }
 
     // MARK: - Session Automatic Tax
 
-    public struct SessionAutomaticTax: Codable {
+    public struct SessionAutomaticTax: Codable, Sendable {
         /// Whether automatic tax is enabled.
         public let enabled: Bool
         /// The account that's liable for tax.
@@ -386,13 +386,13 @@ public struct CheckoutSession: Codable {
             self.status = status
         }
 
-        public enum AutomaticTaxStatus: String, Codable {
+        public enum AutomaticTaxStatus: String, Codable, Sendable {
             case complete
             case failed
             case requiresLocationInputs = "requires_location_inputs"
         }
 
-        public struct Issuer: Codable {
+        public struct Issuer: Codable, Sendable {
             public let account: String?
             public let type: IssuerType
 
@@ -401,7 +401,7 @@ public struct CheckoutSession: Codable {
                 self.type = type
             }
 
-            public enum IssuerType: String, Codable {
+            public enum IssuerType: String, Codable, Sendable {
                 case account
                 case `self`
             }
@@ -410,7 +410,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Consent
 
-    public struct Consent: Codable {
+    public struct Consent: Codable, Sendable {
         /// Promotion consent.
         public let promotions: ConsentStatus?
         /// Terms of service consent.
@@ -426,7 +426,7 @@ public struct CheckoutSession: Codable {
                  termsOfService = "terms_of_service"
         }
 
-        public enum ConsentStatus: String, Codable {
+        public enum ConsentStatus: String, Codable, Sendable {
             case optIn = "opt_in"
             case optOut = "opt_out"
         }
@@ -434,7 +434,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Consent Collection
 
-    public struct ConsentCollection: Codable {
+    public struct ConsentCollection: Codable, Sendable {
         /// Promotion consent collection.
         public let promotions: PromotionConsent?
         /// Terms of service consent collection.
@@ -450,12 +450,12 @@ public struct CheckoutSession: Codable {
                  termsOfService = "terms_of_service"
         }
 
-        public enum PromotionConsent: String, Codable {
+        public enum PromotionConsent: String, Codable, Sendable {
             case auto
             case none
         }
 
-        public enum TermsOfServiceConsent: String, Codable {
+        public enum TermsOfServiceConsent: String, Codable, Sendable {
             case none
             case required
         }
@@ -463,7 +463,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Custom Field Response
 
-    public struct CustomFieldResponse: Codable {
+    public struct CustomFieldResponse: Codable, Sendable {
         /// The key of the custom field.
         public let key: String
         /// The label of the custom field.
@@ -489,13 +489,13 @@ public struct CheckoutSession: Codable {
             self.numeric = numeric
         }
 
-        public enum CustomFieldType: String, Codable {
+        public enum CustomFieldType: String, Codable, Sendable {
             case dropdown
             case numeric
             case text
         }
 
-        public struct CustomFieldLabel: Codable {
+        public struct CustomFieldLabel: Codable, Sendable {
             public let custom: String?
             public let type: LabelType
 
@@ -504,12 +504,12 @@ public struct CheckoutSession: Codable {
                 self.type = type
             }
 
-            public enum LabelType: String, Codable {
+            public enum LabelType: String, Codable, Sendable {
                 case custom
             }
         }
 
-        public struct CustomFieldText: Codable {
+        public struct CustomFieldText: Codable, Sendable {
             public let defaultValue: String?
             public let maximumLength: Int?
             public let minimumLength: Int?
@@ -530,7 +530,7 @@ public struct CheckoutSession: Codable {
             }
         }
 
-        public struct CustomFieldDropdown: Codable {
+        public struct CustomFieldDropdown: Codable, Sendable {
             public let defaultValue: String?
             public let options: [DropdownOption]
             public let value: String?
@@ -547,7 +547,7 @@ public struct CheckoutSession: Codable {
                      value
             }
 
-            public struct DropdownOption: Codable {
+            public struct DropdownOption: Codable, Sendable {
                 public let label: String
                 public let value: String
 
@@ -558,7 +558,7 @@ public struct CheckoutSession: Codable {
             }
         }
 
-        public struct CustomFieldNumeric: Codable {
+        public struct CustomFieldNumeric: Codable, Sendable {
             public let defaultValue: String?
             public let maximumLength: Int?
             public let minimumLength: Int?
@@ -582,7 +582,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Custom Text
 
-    public struct CustomText: Codable {
+    public struct CustomText: Codable, Sendable {
         /// Custom text for after submit.
         public let afterSubmit: CustomTextMessage?
         /// Custom text for shipping address.
@@ -606,7 +606,7 @@ public struct CheckoutSession: Codable {
                  termsOfServiceAcceptance = "terms_of_service_acceptance"
         }
 
-        public struct CustomTextMessage: Codable {
+        public struct CustomTextMessage: Codable, Sendable {
             public let message: String
 
             public init(message: String) {
@@ -617,7 +617,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Customer Details
 
-    public struct CustomerDetails: Codable {
+    public struct CustomerDetails: Codable, Sendable {
         /// The customer's address.
         public let address: Address?
         /// The customer's email.
@@ -649,13 +649,13 @@ public struct CheckoutSession: Codable {
                  taxIds = "tax_ids"
         }
 
-        public enum TaxExempt: String, Codable {
+        public enum TaxExempt: String, Codable, Sendable {
             case exempt
             case none
             case reverse
         }
 
-        public struct CustomerTaxId: Codable {
+        public struct CustomerTaxId: Codable, Sendable {
             public let type: String
             public let value: String?
 
@@ -668,7 +668,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Session Discount
 
-    public struct SessionDiscount: Codable {
+    public struct SessionDiscount: Codable, Sendable {
         /// The ID of the coupon applied.
         public let coupon: String?
         /// The ID of the promotion code applied.
@@ -687,7 +687,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Invoice Creation
 
-    public struct InvoiceCreation: Codable {
+    public struct InvoiceCreation: Codable, Sendable {
         /// Whether invoice creation is enabled.
         public let enabled: Bool
         /// Invoice data for the created invoice.
@@ -703,7 +703,7 @@ public struct CheckoutSession: Codable {
                  invoiceData = "invoice_data"
         }
 
-        public struct InvoiceData: Codable {
+        public struct InvoiceData: Codable, Sendable {
             /// Account tax IDs.
             public let accountTaxIds: [String]?
             /// Custom fields.
@@ -735,7 +735,7 @@ public struct CheckoutSession: Codable {
                      metadata
             }
 
-            public struct InvoiceCustomField: Codable {
+            public struct InvoiceCustomField: Codable, Sendable {
                 public let name: String
                 public let value: String
 
@@ -745,7 +745,7 @@ public struct CheckoutSession: Codable {
                 }
             }
 
-            public struct Issuer: Codable {
+            public struct Issuer: Codable, Sendable {
                 public let account: String?
                 public let type: IssuerType
 
@@ -754,7 +754,7 @@ public struct CheckoutSession: Codable {
                     self.type = type
                 }
 
-                public enum IssuerType: String, Codable {
+                public enum IssuerType: String, Codable, Sendable {
                     case account
                     case `self`
                 }
@@ -764,7 +764,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Payment Method Configuration Details
 
-    public struct PaymentMethodConfigurationDetails: Codable {
+    public struct PaymentMethodConfigurationDetails: Codable, Sendable {
         /// ID of the payment method configuration.
         public let id: String
         /// Parent payment method configuration ID.
@@ -778,7 +778,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Phone Number Collection
 
-    public struct PhoneNumberCollection: Codable {
+    public struct PhoneNumberCollection: Codable, Sendable {
         /// Whether phone number collection is enabled.
         public let enabled: Bool
 
@@ -789,7 +789,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Shipping Address Collection
 
-    public struct ShippingAddressCollection: Codable {
+    public struct ShippingAddressCollection: Codable, Sendable {
         /// An array of two-letter ISO country codes representing the allowed shipping countries.
         public let allowedCountries: [String]
 
@@ -804,7 +804,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Session Shipping Cost
 
-    public struct SessionShippingCost: Codable {
+    public struct SessionShippingCost: Codable, Sendable {
         /// Total amount before tax.
         public let amountSubtotal: Int
         /// Total tax amount.
@@ -831,7 +831,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Shipping Option
 
-    public struct ShippingOption: Codable {
+    public struct ShippingOption: Codable, Sendable {
         /// The shipping amount.
         public let shippingAmount: Int
         /// The ID of the Shipping Rate.
@@ -850,7 +850,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Tax ID Collection
 
-    public struct TaxIdCollection: Codable {
+    public struct TaxIdCollection: Codable, Sendable {
         /// Whether tax ID collection is enabled.
         public let enabled: Bool
         /// Whether the tax ID is required.
@@ -861,7 +861,7 @@ public struct CheckoutSession: Codable {
             self.required = required
         }
 
-        public enum TaxIdRequired: String, Codable {
+        public enum TaxIdRequired: String, Codable, Sendable {
             case ifSupported = "if_supported"
             case never
         }
@@ -869,7 +869,7 @@ public struct CheckoutSession: Codable {
 
     // MARK: - Total Details
 
-    public struct TotalDetails: Codable {
+    public struct TotalDetails: Codable, Sendable {
         /// Amount discounted.
         public let amountDiscount: Int
         /// Amount for shipping.
@@ -893,7 +893,7 @@ public struct CheckoutSession: Codable {
                  breakdown
         }
 
-        public struct Breakdown: Codable {
+        public struct Breakdown: Codable, Sendable {
             /// Discount breakdown.
             public let discounts: [DiscountBreakdown]
             /// Tax breakdown.
@@ -904,7 +904,7 @@ public struct CheckoutSession: Codable {
                 self.taxes = taxes
             }
 
-            public struct DiscountBreakdown: Codable {
+            public struct DiscountBreakdown: Codable, Sendable {
                 /// Amount discounted.
                 public let amount: Int
                 /// The discount applied.
@@ -915,7 +915,7 @@ public struct CheckoutSession: Codable {
                     self.discount = discount
                 }
 
-                public struct DiscountInfo: Codable {
+                public struct DiscountInfo: Codable, Sendable {
                     public let id: String
                     public let object: String
 
@@ -926,7 +926,7 @@ public struct CheckoutSession: Codable {
                 }
             }
 
-            public struct TaxBreakdown: Codable {
+            public struct TaxBreakdown: Codable, Sendable {
                 /// Amount of tax.
                 public let amount: Int
                 /// The tax rate applied.
@@ -943,7 +943,7 @@ public struct CheckoutSession: Codable {
 
 // MARK: - Session Line Item
 
-public struct SessionLineItem: Codable {
+public struct SessionLineItem: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object's type.

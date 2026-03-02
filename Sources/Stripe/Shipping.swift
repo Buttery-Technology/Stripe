@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Shipping: Codable {
+public struct Shipping: Codable, Sendable {
     public let address: Address?
     public let name: String?
     public let carrier: String?

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Billing: Codable {
+public struct Billing: Codable, Sendable {
     /// Billing address for the order.
     public let address: Address?
     /// Email address for the order.

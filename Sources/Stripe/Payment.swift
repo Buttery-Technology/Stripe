@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Payment: Codable {
+public struct Payment: Codable, Sendable {
     public static let schema = "payments"
     
     /// ID of the payment intent associated with this order. Null when the order is open.

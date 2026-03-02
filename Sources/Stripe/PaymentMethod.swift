@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PaymentMethod: Codable {
+public struct PaymentMethod: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object's type. Always "payment_method".
@@ -77,7 +77,7 @@ public struct PaymentMethod: Codable {
     // MARK: - Allow Redisplay
 
     /// Indicates whether this payment method can be shown again to its customer in a checkout flow.
-    public enum AllowRedisplay: String, Codable {
+    public enum AllowRedisplay: String, Codable, Sendable {
         /// Use `always` to indicate that this payment method can always be shown to a customer in checkout.
         case always
         /// Use `limited` to indicate that this payment method can only be shown to a customer in checkout under limited circumstances.
@@ -89,7 +89,7 @@ public struct PaymentMethod: Codable {
     // MARK: - Radar Options
 
     /// Options to configure Radar.
-    public struct RadarOptions: Codable {
+    public struct RadarOptions: Codable, Sendable {
         /// A Radar Session is a snapshot of the browser metadata and device details that help Radar make more accurate predictions on your payments.
         public let session: String?
 
@@ -98,7 +98,7 @@ public struct PaymentMethod: Codable {
         }
     }
     
-    public enum PaymentType: String, Codable {
+    public enum PaymentType: String, Codable, Sendable {
         case acssDebit = "acss_debit"
         case affirm
         case afterpayClearpay = "afterpay_clearpay"
@@ -160,7 +160,7 @@ public struct PaymentMethod: Codable {
     // MARK: - Card Details
 
     /// Card payment method details.
-    public struct CardDetails: Codable {
+    public struct CardDetails: Codable, Sendable {
         /// Card brand. Can be `amex`, `diners`, `discover`, `eftpos_au`, `jcb`, `mastercard`, `unionpay`, `visa`, or `unknown`.
         public let brand: String?
         /// Two-letter ISO code representing the country of the card.
@@ -214,7 +214,7 @@ public struct PaymentMethod: Codable {
         }
 
         /// Details of the original PaymentMethod that created this object.
-        public struct GeneratedFrom: Codable {
+        public struct GeneratedFrom: Codable, Sendable {
             /// The charge that created this object.
             public let charge: String?
             /// Transaction-specific details of the payment method used in the payment.
@@ -234,7 +234,7 @@ public struct PaymentMethod: Codable {
                 case setupAttempt = "setup_attempt"
             }
 
-            public struct PaymentMethodDetailsRef: Codable {
+            public struct PaymentMethodDetailsRef: Codable, Sendable {
                 public let type: String?
 
                 public init(type: String?) {
@@ -244,7 +244,7 @@ public struct PaymentMethod: Codable {
         }
 
         /// Contains information about card networks.
-        public struct Networks: Codable {
+        public struct Networks: Codable, Sendable {
             /// All available networks for the card.
             public let available: [String]
             /// The preferred network for co-branded cards.
@@ -257,7 +257,7 @@ public struct PaymentMethod: Codable {
         }
 
         /// Contains details on how this Card may be used for 3D Secure authentication.
-        public struct ThreeDSecureUsage: Codable {
+        public struct ThreeDSecureUsage: Codable, Sendable {
             /// Whether 3D Secure is supported on this card.
             public let supported: Bool
 
@@ -267,7 +267,7 @@ public struct PaymentMethod: Codable {
         }
 
         /// If this Card is part of a card wallet, this contains the details.
-        public struct Wallet: Codable {
+        public struct Wallet: Codable, Sendable {
             /// The type of the card wallet.
             public let type: String
             /// If this is an Apple Pay card wallet, additional details.
@@ -296,7 +296,7 @@ public struct PaymentMethod: Codable {
     // MARK: - US Bank Account Details
 
     /// US bank account payment method details.
-    public struct USBankAccountDetails: Codable {
+    public struct USBankAccountDetails: Codable, Sendable {
         /// Account holder type: `individual` or `company`.
         public let accountHolderType: String?
         /// Account type: `checking` or `savings`.
@@ -338,7 +338,7 @@ public struct PaymentMethod: Codable {
             case statusDetails = "status_details"
         }
 
-        public struct USBankNetworks: Codable {
+        public struct USBankNetworks: Codable, Sendable {
             /// The preferred network.
             public let preferred: String?
             /// All supported networks.
@@ -350,7 +350,7 @@ public struct PaymentMethod: Codable {
             }
         }
 
-        public struct StatusDetails: Codable {
+        public struct StatusDetails: Codable, Sendable {
             /// If blocked, contains details about the blocked status.
             public let blocked: BlockedDetails?
 
@@ -358,7 +358,7 @@ public struct PaymentMethod: Codable {
                 self.blocked = blocked
             }
 
-            public struct BlockedDetails: Codable {
+            public struct BlockedDetails: Codable, Sendable {
                 /// The ACH network code for why this account is blocked.
                 public let networkCode: String?
                 /// The reason why this PaymentMethod's fingerprint has been blocked.
@@ -380,7 +380,7 @@ public struct PaymentMethod: Codable {
     // MARK: - SEPA Debit Details
 
     /// SEPA debit payment method details.
-    public struct SepaDebitDetails: Codable {
+    public struct SepaDebitDetails: Codable, Sendable {
         /// Bank code of bank associated with the bank account.
         public let bankCode: String?
         /// Branch code of bank associated with the bank account.
@@ -411,7 +411,7 @@ public struct PaymentMethod: Codable {
             case last4
         }
 
-        public struct SepaGeneratedFrom: Codable {
+        public struct SepaGeneratedFrom: Codable, Sendable {
             /// The ID of the Charge that generated this PaymentMethod.
             public let charge: String?
             /// The ID of the SetupAttempt that generated this PaymentMethod.
@@ -432,7 +432,7 @@ public struct PaymentMethod: Codable {
     // MARK: - Link Details
 
     /// Link payment method details.
-    public struct LinkDetails: Codable {
+    public struct LinkDetails: Codable, Sendable {
         /// Account owner's email address.
         public let email: String?
         /// Deprecated: Use the `payment_method_options.link.persistent_token` field instead.
@@ -452,7 +452,7 @@ public struct PaymentMethod: Codable {
     // MARK: - ACSS Debit Details
 
     /// ACSS debit payment method details (Canadian pre-authorized debit).
-    public struct AcssDebitDetails: Codable {
+    public struct AcssDebitDetails: Codable, Sendable {
         /// Name of the bank associated with the bank account.
         public let bankName: String?
         /// Uniquely identifies this particular bank account.

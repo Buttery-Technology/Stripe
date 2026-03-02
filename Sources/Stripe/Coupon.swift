@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Coupon: Codable {
+public struct Coupon: Codable, Sendable {
     public let id, object: String
     public let amountOff: Int?
     /// Specifies which products or prices the coupon applies to.
@@ -68,7 +68,7 @@ public struct Coupon: Codable {
 
     // MARK: - Applies To
     /// Specifies which products or prices the coupon applies to.
-    public struct AppliesTo: Codable {
+    public struct AppliesTo: Codable, Sendable {
         /// A list of product IDs this coupon applies to.
         public let products: [String]?
         /// A list of price IDs this coupon applies to.
@@ -82,7 +82,7 @@ public struct Coupon: Codable {
 
     // MARK: - Currency Option
     /// Multi-currency amount for fixed-amount coupons.
-    public struct CurrencyOption: Codable {
+    public struct CurrencyOption: Codable, Sendable {
         /// Amount (in the currency specified) that will be taken off.
         public let amountOff: Int
 

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct PaymentIntent: Codable {
+public struct PaymentIntent: Codable, Sendable {
     public static let schema = "payment_intents"
 
     /// Unique identifier for the object.
@@ -284,7 +284,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Status
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case canceled
         case processing
         case requiresAction = "requires_action"
@@ -296,7 +296,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Cancellation Reason
 
-    public enum CancellationReason: String, Codable {
+    public enum CancellationReason: String, Codable, Sendable {
         case abandoned
         case automatic
         case duplicate
@@ -309,21 +309,21 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Confirmation Method
 
-    public enum ConfirmationMethod: String, Codable {
+    public enum ConfirmationMethod: String, Codable, Sendable {
         case automatic
         case manual
     }
 
     // MARK: - Amount Details
 
-    public struct AmountDetails: Codable {
+    public struct AmountDetails: Codable, Sendable {
         public let tip: Tip?
 
         public init(tip: Tip?) {
             self.tip = tip
         }
 
-        public struct Tip: Codable {
+        public struct Tip: Codable, Sendable {
             public let amount: Int?
 
             public init(amount: Int?) {
@@ -334,7 +334,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Automatic Payment Methods
 
-    public struct AutomaticPaymentMethods: Codable {
+    public struct AutomaticPaymentMethods: Codable, Sendable {
         public let allowRedirects: AllowRedirects?
         public let enabled: Bool
 
@@ -348,7 +348,7 @@ public struct PaymentIntent: Codable {
             case enabled
         }
 
-        public enum AllowRedirects: String, Codable {
+        public enum AllowRedirects: String, Codable, Sendable {
             case always
             case never
         }
@@ -356,7 +356,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Last Payment Error
 
-    public struct LastPaymentError: Codable {
+    public struct LastPaymentError: Codable, Sendable {
         public let code: String?
         public let declineCode: String?
         public let docUrl: String?
@@ -388,7 +388,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Next Action
 
-    public struct NextAction: Codable {
+    public struct NextAction: Codable, Sendable {
         public let type: String
         public let redirectToUrl: RedirectToUrl?
         public let useStripeSdk: [String: AnyCodable]?
@@ -405,7 +405,7 @@ public struct PaymentIntent: Codable {
                  useStripeSdk = "use_stripe_sdk"
         }
 
-        public struct RedirectToUrl: Codable {
+        public struct RedirectToUrl: Codable, Sendable {
             public let returnUrl: String?
             public let url: String?
 
@@ -423,7 +423,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Processing
 
-    public struct Processing: Codable {
+    public struct Processing: Codable, Sendable {
         public let card: CardProcessing?
         public let type: String?
 
@@ -432,7 +432,7 @@ public struct PaymentIntent: Codable {
             self.type = type
         }
 
-        public struct CardProcessing: Codable {
+        public struct CardProcessing: Codable, Sendable {
             public let customerNotification: CustomerNotification?
 
             public init(customerNotification: CustomerNotification?) {
@@ -443,7 +443,7 @@ public struct PaymentIntent: Codable {
                 case customerNotification = "customer_notification"
             }
 
-            public struct CustomerNotification: Codable {
+            public struct CustomerNotification: Codable, Sendable {
                 public let approvalRequested: Bool?
                 public let completesAt: TimeInterval?
 
@@ -462,7 +462,7 @@ public struct PaymentIntent: Codable {
 
     // MARK: - Transfer Data
 
-    public struct TransferData: Codable {
+    public struct TransferData: Codable, Sendable {
         public let amount: Int?
         public let destination: String
 
@@ -475,7 +475,7 @@ public struct PaymentIntent: Codable {
     // MARK: - Presentment Details
 
     /// Details about the payment method at the time of the transaction in the presentment currency.
-    public struct PresentmentDetails: Codable {
+    public struct PresentmentDetails: Codable, Sendable {
         /// Amount intended to be collected by this payment, in presentment currency.
         public let presentmentAmount: Int?
         /// The presentment currency of the payment.
@@ -495,7 +495,7 @@ public struct PaymentIntent: Codable {
     // MARK: - Payment Method Configuration Details
 
     /// Information about the payment method configuration used for this PaymentIntent.
-    public struct PaymentMethodConfigurationDetails: Codable {
+    public struct PaymentMethodConfigurationDetails: Codable, Sendable {
         /// ID of the payment method configuration used.
         public let id: String
         /// ID of the parent payment method configuration used.
@@ -510,7 +510,7 @@ public struct PaymentIntent: Codable {
     // MARK: - Payment Intent Hooks
 
     /// Automation triggers and configurations for the PaymentIntent lifecycle.
-    public struct PaymentIntentHooks: Codable {
+    public struct PaymentIntentHooks: Codable, Sendable {
         /// Automation triggers for the PaymentIntent.
         public let beforeConfirmation: BeforeConfirmation?
 
@@ -522,7 +522,7 @@ public struct PaymentIntent: Codable {
             case beforeConfirmation = "before_confirmation"
         }
 
-        public struct BeforeConfirmation: Codable {
+        public struct BeforeConfirmation: Codable, Sendable {
             /// The type of automation to run.
             public let type: String
 
@@ -535,7 +535,7 @@ public struct PaymentIntent: Codable {
     // MARK: - Payment Details
 
     /// Industry-specific information about the payment.
-    public struct PaymentDetails: Codable {
+    public struct PaymentDetails: Codable, Sendable {
         /// Car rental details for this PaymentIntent.
         public let carRental: [String: AnyCodable]?
         /// Event details for this PaymentIntent.

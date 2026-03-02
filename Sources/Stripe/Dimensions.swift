@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Dimensions: Codable {
+public struct Dimensions: Codable, Sendable {
     public let height: Decimal
     public let length: Decimal
     public let weight: Decimal

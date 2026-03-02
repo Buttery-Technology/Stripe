@@ -19,7 +19,7 @@ import Foundation
 /// a new meter event session when the token expires.
 ///
 /// - Note: This is a v2 API resource. Supports up to 10,000 requests per second in livemode.
-public struct MeterEventSession: Codable {
+public struct MeterEventSession: Codable, Sendable {
     public static let schema = "billing/meter_event_session"
 
     /// The unique identifier for the session.
@@ -80,7 +80,7 @@ public struct MeterEventSession: Codable {
 /// single business, and up to 100 events per request.
 ///
 /// - Note: Requires a valid `MeterEventSession` token for authentication.
-public struct MeterEventStream: Codable {
+public struct MeterEventStream: Codable, Sendable {
     public static let schema = "billing/meter_event_stream"
 
     /// The list of meter events to create. Maximum 100 events per request.
@@ -95,7 +95,7 @@ public struct MeterEventStream: Codable {
 // MARK: - Meter Event Stream Response
 
 /// The response returned after sending meter events via the stream endpoint.
-public struct MeterEventStreamResponse: Codable {
+public struct MeterEventStreamResponse: Codable, Sendable {
     /// The list of meter event responses.
     public let events: [MeterEventResponse]?
 
@@ -111,7 +111,7 @@ public struct MeterEventStreamResponse: Codable {
 // MARK: - Meter Event Error
 
 /// An error that occurred while processing a meter event.
-public struct MeterEventError: Codable {
+public struct MeterEventError: Codable, Sendable {
     /// The error code.
     public let code: String
 

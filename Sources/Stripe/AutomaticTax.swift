@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct AutomaticTax: Codable {
+public struct AutomaticTax: Codable, Sendable {
     public let enabled: Bool
     public let requiresLocationInputs: Bool
     public let status: Self.Status?
@@ -25,7 +25,7 @@ public struct AutomaticTax: Codable {
              status
     }
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case requiresLocationInputs = "requires_location_inputs", complete, failed
     }
 }

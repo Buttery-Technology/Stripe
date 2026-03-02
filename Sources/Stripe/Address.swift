@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Address: Codable {
+public struct Address: Codable, Sendable {
     public let city: String?
     public let country: String?
     public let line1: String?

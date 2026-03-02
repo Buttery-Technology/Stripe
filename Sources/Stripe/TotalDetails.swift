@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct TotalDetails: Codable {
+public struct TotalDetails: Codable, Sendable {
     /// This is the sum of all the discounts.
     public let amountDiscount: Int
     /// This is the sum of all the shipping amounts.
@@ -32,7 +32,7 @@ public struct TotalDetails: Codable {
         case breakdown
     }
     
-    public struct Breakdown: Codable {
+    public struct Breakdown: Codable, Sendable {
         /// The aggregated discounts.
         public let discounts: [BreakdownDiscount]
         
@@ -41,7 +41,7 @@ public struct TotalDetails: Codable {
             self.discounts = discounts
         }
         
-        public struct BreakdownDiscount: Codable {
+        public struct BreakdownDiscount: Codable, Sendable {
             /// The amount discounted.
             public let amount: Int
             /// The discount applied.
