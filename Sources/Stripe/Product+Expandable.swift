@@ -9,7 +9,7 @@ import Foundation
 
 extension Product {
     /// Represents a value that can be an id string or a `Product` object.
-    public enum Expandable: Codable {
+    public enum Expandable: Codable, Sendable {
         case id(String)
         case object(Product)
         

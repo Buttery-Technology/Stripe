@@ -8,7 +8,7 @@
 import Foundation
 
 extension Payment {
-    public struct Settings: Codable {
+    public struct Settings: Codable, Sendable {
         /// The amount of the application fee (if any) that will be requested to be applied to the payment and transferred to the application owner’s Stripe account.
         public let applicationFeeAmount: String?
         /// PaymentMethod-specific configuration to provide to the order’s PaymentIntent.
@@ -45,7 +45,7 @@ extension Payment {
             case transferData = "transfer_data"
         }
         
-        public struct TransferData: Codable {
+        public struct TransferData: Codable, Sendable {
             /// The amount that will be transferred automatically when the order is paid. If no amount is set, the full amount is transferred. There cannot be any line items with recurring prices when using this field.
             public let amount: Int
             /// ID of the Connected account receiving the transfer.

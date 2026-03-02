@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Subscription: Codable {
+public struct Subscription: Codable, Sendable {
     public static let schema = "subscriptions"
 
     /// Unique identifier for the object.
@@ -207,7 +207,7 @@ public struct Subscription: Codable {
 
     // MARK: - Status
 
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case active
         case canceled
         case incomplete
@@ -220,14 +220,14 @@ public struct Subscription: Codable {
 
     // MARK: - Collection Method
 
-    public enum CollectionMethod: String, Codable {
+    public enum CollectionMethod: String, Codable, Sendable {
         case chargeAutomatically = "charge_automatically"
         case sendInvoice = "send_invoice"
     }
 
     // MARK: - Automatic Tax
 
-    public struct AutomaticTax: Codable {
+    public struct AutomaticTax: Codable, Sendable {
         /// Whether automatic tax collection is enabled.
         public let enabled: Bool
         /// The reason automatic tax is disabled, if applicable.
@@ -247,7 +247,7 @@ public struct Subscription: Codable {
                  liability
         }
 
-        public struct Liability: Codable {
+        public struct Liability: Codable, Sendable {
             /// The connected account being referenced.
             public let account: String?
             /// Type of the account referenced.
@@ -258,7 +258,7 @@ public struct Subscription: Codable {
                 self.type = type
             }
 
-            public enum LiabilityType: String, Codable {
+            public enum LiabilityType: String, Codable, Sendable {
                 case account
                 case `self`
             }
@@ -267,7 +267,7 @@ public struct Subscription: Codable {
 
     // MARK: - Billing Cycle Anchor Config
 
-    public struct BillingCycleAnchorConfig: Codable {
+    public struct BillingCycleAnchorConfig: Codable, Sendable {
         /// The day of the month the billing_cycle_anchor should be.
         public let dayOfMonth: Int
         /// The hour of the day the billing_cycle_anchor should be.
@@ -298,7 +298,7 @@ public struct Subscription: Codable {
 
     // MARK: - Billing Mode
 
-    public struct BillingMode: Codable {
+    public struct BillingMode: Codable, Sendable {
         /// The type of billing mode.
         public let type: BillingModeType
 
@@ -306,7 +306,7 @@ public struct Subscription: Codable {
             self.type = type
         }
 
-        public enum BillingModeType: String, Codable {
+        public enum BillingModeType: String, Codable, Sendable {
             case classic
             case flexible
         }
@@ -314,7 +314,7 @@ public struct Subscription: Codable {
 
     // MARK: - Billing Thresholds
 
-    public struct BillingThresholds: Codable {
+    public struct BillingThresholds: Codable, Sendable {
         /// Monetary threshold that triggers the subscription to advance to a new billing period.
         public let amountGte: Int?
         /// Indicates if the billing_cycle_anchor should be reset when a threshold is reached.
@@ -333,7 +333,7 @@ public struct Subscription: Codable {
 
     // MARK: - Cancellation Details
 
-    public struct CancellationDetails: Codable {
+    public struct CancellationDetails: Codable, Sendable {
         /// Additional comments about why the user canceled the subscription.
         public let comment: String?
         /// The customer submitted reason for why they canceled.
@@ -347,7 +347,7 @@ public struct Subscription: Codable {
             self.reason = reason
         }
 
-        public enum CancellationFeedback: String, Codable {
+        public enum CancellationFeedback: String, Codable, Sendable {
             case customerService = "customer_service"
             case lowQuality = "low_quality"
             case missingFeatures = "missing_features"
@@ -358,7 +358,7 @@ public struct Subscription: Codable {
             case unused
         }
 
-        public enum CancellationReason: String, Codable {
+        public enum CancellationReason: String, Codable, Sendable {
             case cancellationRequested = "cancellation_requested"
             case paymentDisputed = "payment_disputed"
             case paymentFailed = "payment_failed"
@@ -367,7 +367,7 @@ public struct Subscription: Codable {
 
     // MARK: - Subscription Invoice Settings
 
-    public struct SubscriptionInvoiceSettings: Codable {
+    public struct SubscriptionInvoiceSettings: Codable, Sendable {
         /// The account tax IDs associated with the subscription.
         public let accountTaxIds: [String]?
         /// The connected account that issues the invoice.
@@ -386,7 +386,7 @@ public struct Subscription: Codable {
 
     // MARK: - Issuer
 
-    public struct Issuer: Codable {
+    public struct Issuer: Codable, Sendable {
         /// The connected account being referenced.
         public let account: String?
         /// Type of the account referenced.
@@ -397,7 +397,7 @@ public struct Subscription: Codable {
             self.type = type
         }
 
-        public enum IssuerType: String, Codable {
+        public enum IssuerType: String, Codable, Sendable {
             case account
             case `self`
         }
@@ -405,7 +405,7 @@ public struct Subscription: Codable {
 
     // MARK: - Pause Collection
 
-    public struct PauseCollection: Codable {
+    public struct PauseCollection: Codable, Sendable {
         /// The payment collection behavior for this subscription.
         public let behavior: PauseBehavior
         /// The time after which the subscription will resume collecting payments.
@@ -421,7 +421,7 @@ public struct Subscription: Codable {
                  resumesAt = "resumes_at"
         }
 
-        public enum PauseBehavior: String, Codable {
+        public enum PauseBehavior: String, Codable, Sendable {
             case keepAsDraft = "keep_as_draft"
             case markUncollectible = "mark_uncollectible"
             case void
@@ -430,7 +430,7 @@ public struct Subscription: Codable {
 
     // MARK: - Subscription Payment Settings
 
-    public struct SubscriptionPaymentSettings: Codable {
+    public struct SubscriptionPaymentSettings: Codable, Sendable {
         /// Payment-method-specific configuration to provide to invoices.
         public let paymentMethodOptions: [String: AnyCodable]?
         /// The list of payment method types to provide to every invoice.
@@ -450,7 +450,7 @@ public struct Subscription: Codable {
                  saveDefaultPaymentMethod = "save_default_payment_method"
         }
 
-        public enum SaveDefaultPaymentMethod: String, Codable {
+        public enum SaveDefaultPaymentMethod: String, Codable, Sendable {
             case off
             case onSubscription = "on_subscription"
         }
@@ -458,7 +458,7 @@ public struct Subscription: Codable {
 
     // MARK: - Pending Invoice Item Interval
 
-    public struct PendingInvoiceItemInterval: Codable {
+    public struct PendingInvoiceItemInterval: Codable, Sendable {
         /// Specifies invoicing frequency.
         public let interval: Interval
         /// The number of intervals between invoices.
@@ -474,7 +474,7 @@ public struct Subscription: Codable {
                  intervalCount = "interval_count"
         }
 
-        public enum Interval: String, Codable {
+        public enum Interval: String, Codable, Sendable {
             case day
             case month
             case week
@@ -484,7 +484,7 @@ public struct Subscription: Codable {
 
     // MARK: - Pending Update
 
-    public struct PendingUpdate: Codable {
+    public struct PendingUpdate: Codable, Sendable {
         /// If the update is applied, determines the date of the first full invoice.
         public let billingCycleAnchor: TimeInterval?
         /// The point after which the changes reflected will be discarded.
@@ -511,7 +511,7 @@ public struct Subscription: Codable {
 
     // MARK: - Transfer Data
 
-    public struct TransferData: Codable {
+    public struct TransferData: Codable, Sendable {
         /// A non-negative decimal between 0 and 100.
         public let amountPercent: Double?
         /// The account where funds from the payment will be transferred to.
@@ -530,7 +530,7 @@ public struct Subscription: Codable {
 
     // MARK: - Trial Settings
 
-    public struct TrialSettings: Codable {
+    public struct TrialSettings: Codable, Sendable {
         /// Defines how the subscription should behave when the user's trial ends.
         public let endBehavior: EndBehavior
 
@@ -542,7 +542,7 @@ public struct Subscription: Codable {
             case endBehavior = "end_behavior"
         }
 
-        public struct EndBehavior: Codable {
+        public struct EndBehavior: Codable, Sendable {
             /// Indicates how the subscription should change when the trial ends.
             public let missingPaymentMethod: MissingPaymentMethod
 
@@ -554,7 +554,7 @@ public struct Subscription: Codable {
                 case missingPaymentMethod = "missing_payment_method"
             }
 
-            public enum MissingPaymentMethod: String, Codable {
+            public enum MissingPaymentMethod: String, Codable, Sendable {
                 case cancel
                 case createInvoice = "create_invoice"
                 case pause
@@ -565,7 +565,7 @@ public struct Subscription: Codable {
 
 // MARK: - Subscription Item
 
-public struct SubscriptionItem: Codable {
+public struct SubscriptionItem: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object's type.
@@ -613,7 +613,7 @@ public struct SubscriptionItem: Codable {
              taxRates = "tax_rates"
     }
 
-    public struct ItemBillingThresholds: Codable {
+    public struct ItemBillingThresholds: Codable, Sendable {
         /// Usage threshold that triggers the subscription to create an invoice.
         public let usageGte: Int?
 
@@ -629,7 +629,7 @@ public struct SubscriptionItem: Codable {
 
 // MARK: - Tax Rate
 
-public struct TaxRate: Codable {
+public struct TaxRate: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object's type.

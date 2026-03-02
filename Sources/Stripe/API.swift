@@ -10,7 +10,7 @@ import Foundation
 /// Assists with interacting with the `Stripe` API. Use `shared` to use the global instance setup ahead of time.
 ///
 /// - Note: When interacting with the `shared` instance, the secrets **must** be setup *before* accessing. Please call `-initialize(endPoint:liveSecret:testSecret:)` to set up `API` before use.
-public struct API {
+public struct API: @unchecked Sendable {
     public static var shared = API()
 
     /// The API namespace to use for requests.

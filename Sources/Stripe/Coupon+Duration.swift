@@ -8,7 +8,7 @@
 import Foundation
 
 extension Coupon {
-    public enum Duration: String, Codable {
+    public enum Duration: String, Codable, Sendable {
         case once, forever, repeating
     }
 }

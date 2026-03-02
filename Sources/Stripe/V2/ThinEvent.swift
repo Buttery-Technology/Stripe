@@ -17,7 +17,7 @@ import Foundation
 ///
 /// - Note: Because thin events don't include object snapshots, you should always
 ///   fetch the latest version of the resource from the API when processing events.
-public struct ThinEvent: Codable {
+public struct ThinEvent: Codable, Sendable {
     /// Unique identifier for the event.
     public let id: String
 
@@ -68,7 +68,7 @@ public struct ThinEvent: Codable {
     // MARK: - Related Object
 
     /// A reference to the object that triggered the event.
-    public struct RelatedObject: Codable {
+    public struct RelatedObject: Codable, Sendable {
         /// Unique identifier for the object.
         public let id: String
 
@@ -88,7 +88,7 @@ public struct ThinEvent: Codable {
     // MARK: - Event Reason
 
     /// The reason for the event.
-    public struct EventReason: Codable {
+    public struct EventReason: Codable, Sendable {
         /// The type of reason.
         public let type: ReasonType
 
@@ -101,7 +101,7 @@ public struct ThinEvent: Codable {
         }
 
         /// The type of reason that triggered the event.
-        public enum ReasonType: String, Codable {
+        public enum ReasonType: String, Codable, Sendable {
             /// The event was triggered by an API request.
             case request
 
@@ -110,7 +110,7 @@ public struct ThinEvent: Codable {
         }
 
         /// Information about the request that triggered the event.
-        public struct RequestInfo: Codable {
+        public struct RequestInfo: Codable, Sendable {
             /// The ID of the request that triggered the event.
             public let id: String
 
@@ -133,7 +133,7 @@ public struct ThinEvent: Codable {
 // MARK: - V2 Event (Full)
 
 /// A full v2 event object that can be retrieved after receiving a thin event.
-public struct V2Event: Codable {
+public struct V2Event: Codable, Sendable {
     /// Unique identifier for the event.
     public let id: String
 
@@ -189,7 +189,7 @@ public struct V2Event: Codable {
     // MARK: - Event Data
 
     /// The data payload of the event.
-    public struct EventData: Codable {
+    public struct EventData: Codable, Sendable {
         /// The data object. The structure depends on the event type.
         /// Use a custom decoder to parse specific event types.
         public let object: [String: AnyCodable]?
@@ -204,14 +204,14 @@ public struct V2Event: Codable {
 
 /// A cross-platform representation of JSON null.
 /// Used instead of NSNull for Linux compatibility.
-public struct JSONNull: Equatable, Hashable {
+public struct JSONNull: Equatable, Hashable, Sendable {
     public init() {}
 }
 
 // MARK: - AnyCodable Helper
 
 /// A type-erased Codable value for handling dynamic JSON structures.
-public struct AnyCodable: Codable {
+public struct AnyCodable: Codable, @unchecked Sendable {
     public let value: Any
 
     public init(_ value: Any) {

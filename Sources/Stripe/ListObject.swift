@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct ListObject<T: Codable>: Codable {
+public struct ListObject<T: Codable & Sendable>: Codable, Sendable {
     public let object: String
     public let url: String
     public let hasMore: Bool

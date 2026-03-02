@@ -8,7 +8,7 @@
 import Foundation
 
 extension Order {
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         case cancelled, complete, open, processing, submitted
     }
 }

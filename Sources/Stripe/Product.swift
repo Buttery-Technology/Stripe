@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Product: Codable {
+public struct Product: Codable, Sendable {
     public static let schema = "products"
 
     /// Unique identifier for the object.
@@ -91,7 +91,7 @@ public struct Product: Codable {
     }
 
     // MARK: - Marketing Feature
-    public struct MarketingFeature: Codable {
+    public struct MarketingFeature: Codable, Sendable {
         /// The marketing feature name. Up to 80 characters long.
         public let name: String?
 

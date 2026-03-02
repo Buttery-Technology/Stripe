@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Rate: Codable {
+public struct Rate: Codable, Sendable {
     /// Unique identifier for the object.
     public let id: String
     /// String representing the object’s type. Objects of the same type share the same value.

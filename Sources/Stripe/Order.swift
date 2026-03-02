@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct Order: Codable {
+public struct Order: Codable, Sendable {
     public static let schema = "orders"
     
     /// Order cost before any discounts or taxes are applied. A positive integer representing the subtotal of the order in the [smallest currency unit](https://stripe.com/docs/currencies#zero-decimal) (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).

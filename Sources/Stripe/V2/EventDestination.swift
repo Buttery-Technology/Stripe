@@ -14,7 +14,7 @@ import Foundation
 /// including HTTP endpoints, Amazon EventBridge, and other supported destinations.
 ///
 /// - Note: This is a v2 API resource. Requires `Stripe-Version` header.
-public struct EventDestination: Codable {
+public struct EventDestination: Codable, Sendable {
     public static let schema = "core/event_destinations"
 
     /// Unique identifier for the object.
@@ -97,7 +97,7 @@ public struct EventDestination: Codable {
     // MARK: - Destination Type
 
     /// The type of event destination.
-    public enum DestinationType: String, Codable {
+    public enum DestinationType: String, Codable, Sendable {
         /// A webhook endpoint that receives HTTP POST requests.
         case webhookEndpoint = "webhook_endpoint"
 
@@ -108,7 +108,7 @@ public struct EventDestination: Codable {
     // MARK: - Status
 
     /// The status of the event destination.
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         /// The destination is enabled and receiving events.
         case enabled
 
@@ -119,7 +119,7 @@ public struct EventDestination: Codable {
     // MARK: - Status Details
 
     /// Additional details about the status of the event destination.
-    public struct StatusDetails: Codable {
+    public struct StatusDetails: Codable, Sendable {
         /// The reason the destination is in its current status.
         public let message: String?
 
@@ -131,7 +131,7 @@ public struct EventDestination: Codable {
     // MARK: - Webhook Endpoint
 
     /// Configuration for a webhook endpoint destination.
-    public struct WebhookEndpoint: Codable {
+    public struct WebhookEndpoint: Codable, Sendable {
         /// The URL of the webhook endpoint.
         public let url: String
 
@@ -153,7 +153,7 @@ public struct EventDestination: Codable {
     // MARK: - Amazon EventBridge
 
     /// Configuration for an Amazon EventBridge destination.
-    public struct AmazonEventbridge: Codable {
+    public struct AmazonEventbridge: Codable, Sendable {
         /// The AWS account ID.
         public let awsAccountId: String
 
@@ -180,7 +180,7 @@ public struct EventDestination: Codable {
 // MARK: - Event Destination Create Parameters
 
 /// Parameters for creating an event destination.
-public struct EventDestinationCreateParams: Codable {
+public struct EventDestinationCreateParams: Codable, Sendable {
     /// The name of the event destination.
     public let name: String
 
@@ -223,7 +223,7 @@ public struct EventDestinationCreateParams: Codable {
     }
 
     /// Parameters for creating a webhook endpoint.
-    public struct WebhookEndpointParams: Codable {
+    public struct WebhookEndpointParams: Codable, Sendable {
         /// The URL of the webhook endpoint.
         public let url: String
 
@@ -233,7 +233,7 @@ public struct EventDestinationCreateParams: Codable {
     }
 
     /// Parameters for creating an Amazon EventBridge destination.
-    public struct AmazonEventbridgeParams: Codable {
+    public struct AmazonEventbridgeParams: Codable, Sendable {
         /// The AWS account ID.
         public let awsAccountId: String
 

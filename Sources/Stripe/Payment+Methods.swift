@@ -8,7 +8,7 @@
 import Foundation
 
 extension Payment {
-    public struct Details: Codable {
+    public struct Details: Codable, Sendable {
         /// The type of transaction-specific details of the payment method used in the payment, one of `ach_credit_transfer`, `ach_debit`, `acss_debit`, `alipay`, `au_becs_debit`,` bancontact`, `card`, `card_present`, `eps`, `giropay`, `ideal`, `klarna`, `multibanco`, `p24`, `sepa_debit`, `sofort`, `stripe_account`, or `wechat`. An additional hash is included on `payment_method_details` with a name matching this value. It contains information specific to the payment method.
         public let type: String
         /// Details about the payment method at the time of the transaction.
@@ -21,7 +21,7 @@ extension Payment {
         }
     }
     
-    public enum MethodOption: Codable {
+    public enum MethodOption: Codable, Sendable {
         /// f paying by `afterpay_clearpay`, this sub-hash contains details about the AfterpayClearpay payment method options to pass to the order’s PaymentIntent.
         case afterpay_clearpay(AfterpayClearpay)
         /// If paying by `card`, this sub-hash contains details about the Card payment method options to pass to the order’s PaymentIntent.
@@ -86,12 +86,12 @@ extension Payment {
         }
     }
     
-    public enum MethodType: String, Codable {
+    public enum MethodType: String, Codable, Sendable {
         case card, customer_balance, ideal, link, sepa_debit, eps, wechat_pay, oxxo, bancontact, alipay, p24, bacs_debit, giropay, sofort, au_becs_debit, fpx, klarna, paypal, acss_debit, grabpay, afterpay_clearpay
     }
     
     // MARK: Payment Method Objects
-    public struct AfterpayClearpay: Codable {
+    public struct AfterpayClearpay: Codable, Sendable {
         /// Controls when the funds will be captured from the customer’s account.
         public let captureMethod: CaptureMethod
         /// Order identifier shown to the user in Afterpay's online portal. We recommend using a value that helps you answer any questions a customer might have about the payment. The identifier is limited to 128 characters and may contain only letters, digits, underscores, backslashes and dashes.
@@ -117,7 +117,7 @@ extension Payment {
         }
     }
     
-    public struct CustomerBalance: Codable {
+    public struct CustomerBalance: Codable, Sendable {
         /// Configuration for the bank transfer funding type, if the `funding_type` is set to `bank_transfer`.
         public let bankTransfer: BankTransfer
         /// The funding method type to be used when there are not enough funds in the customer balance. Permitted values include: `bank_transfer`.
@@ -140,7 +140,7 @@ extension Payment {
             case bankTransfer = "bank_transfer", fundingType = "funding_type", setupFutureUsage = "setup_future_usage"
         }
         
-        public struct BankTransfer: Codable {
+        public struct BankTransfer: Codable, Sendable {
             /// List of address types that should be returned in the financial_addresses response. If not specified, all valid types will be returned.
             ///
             /// Permitted values include: `sort_code`, `zengin`, `iban`, or `spei`.
@@ -170,17 +170,17 @@ extension Payment {
                 case fundingType = "funding_type", requestedAddressTypes = "requested_address_types", setupFutureUsage = "setup_future_usage", type
             }
             
-            public enum RequestedAddressType: String, Codable {
+            public enum RequestedAddressType: String, Codable, Sendable {
                 case zengin, sort_code, iban, spei
             }
             
-            public enum TransferType: String, Codable {
+            public enum TransferType: String, Codable, Sendable {
                 case eu_bank_transfer, gb_bank_transfer, jp_bank_transfer, mx_bank_transfer
             }
         }
     }
     
-    public struct Klarna: Codable {
+    public struct Klarna: Codable, Sendable {
         /// Controls when the funds will be captured from the customer’s account.
         public let captureMethod: CaptureMethod
         /// Preferred locale of the Klarna checkout page that the customer is redirected to.
@@ -204,7 +204,7 @@ extension Payment {
         }
     }
     
-    public struct PaymentCard: Codable {
+    public struct PaymentCard: Codable, Sendable {
         /// Controls when the funds will be captured from the customer’s account.
         public let captureMethod: CaptureMethod
         /// Indicates that you intend to make future payments with the payment method.
@@ -227,7 +227,7 @@ extension Payment {
         }
     }
     
-    public struct PayPal: Codable {
+    public struct PayPal: Codable, Sendable {
         /// Controls when the funds will be captured from the customer’s account.
         public let captureMethod: CaptureMethod
         /// Preferred locale of the Klarna checkout page that the customer is redirected to.
@@ -244,7 +244,7 @@ extension Payment {
         }
     }
     
-    public struct USBankAccount: Codable {
+    public struct USBankAccount: Codable, Sendable {
         /// Account holder type: individual or company.
         public let accountHolderType: AccountHolderType
         /// Account type: checkings or savings. Defaults to checking if omitted.
@@ -272,14 +272,14 @@ extension Payment {
             case accountHolderType = "account_holder_type", accountType = "account_type", bankName = "bank_name", fingerprint, last4, routingNumber = "routing_number"
         }
         
-        public enum AccountHolderType: String, Codable {
+        public enum AccountHolderType: String, Codable, Sendable {
             /// Account belongs to an individual
             case company
             /// Account belongs to a company
             case individual
         }
         
-        public enum AccountType: String, Codable {
+        public enum AccountType: String, Codable, Sendable {
             /// Bank account type is checking
             case checking
             /// Bank account type is savings

@@ -15,7 +15,7 @@ import Foundation
 ///
 /// Certain API requests might create multiple events. For example, if you create a new subscription
 /// for a customer, you receive both a `customer.subscription.created` event and a `charge.succeeded` event.
-public struct Event: Codable {
+public struct Event: Codable, Sendable {
     public static let schema = "events"
 
     /// Unique identifier for the object.
@@ -72,7 +72,7 @@ public struct Event: Codable {
     // MARK: - Event Data
 
     /// Object containing the API resource relevant to the event.
-    public struct EventData: Codable {
+    public struct EventData: Codable, Sendable {
         /// Object containing the API resource relevant to the event.
         /// The type of object depends on the event type (e.g., a `Charge` object for `charge.succeeded`).
         public let object: [String: AnyCodable]
@@ -94,7 +94,7 @@ public struct Event: Codable {
     // MARK: - Event Request
 
     /// Information on the API request that triggered the event.
-    public struct EventRequest: Codable {
+    public struct EventRequest: Codable, Sendable {
         /// ID of the API request that caused the event.
         /// If null, the event was automatic (e.g., Stripe's automatic subscription handling).
         public let id: String?
@@ -116,7 +116,7 @@ public struct Event: Codable {
 // MARK: - Common Event Types
 
 /// Common Stripe event types for reference.
-public enum EventType: String, Codable {
+public enum EventType: String, Codable, Sendable {
     // Account events
     case accountUpdated = "account.updated"
     case accountApplicationAuthorized = "account.application.authorized"

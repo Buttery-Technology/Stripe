@@ -9,7 +9,7 @@ import Foundation
 
 extension PaymentIntent {
     /// Represents a value that can be an id string or a `PaymentIntent` object.
-    public enum Expandable: Codable {
+    public enum Expandable: Codable, Sendable {
         case id(String)
         case object(PaymentIntent)
         

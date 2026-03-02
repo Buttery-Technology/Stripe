@@ -11,7 +11,7 @@ import Foundation
 ///
 /// V2 lists are eventually consistent by default (rather than immediately consistent like v1),
 /// enabling faster response times. Use the `nextPageUrl` and `previousPageUrl` to navigate.
-public struct V2ListObject<T: Codable>: Codable {
+public struct V2ListObject<T: Codable & Sendable>: Codable, Sendable {
     /// The list of items in this page.
     public let data: [T]
 

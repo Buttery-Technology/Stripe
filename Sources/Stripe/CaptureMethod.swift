@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CaptureMethod: String, Codable {
+public enum CaptureMethod: String, Codable, Sendable {
     /// (Default) Stripe automatically captures funds when the customer authorizes the payment.
     case automatic
     /// Stripe asynchronously captures funds when the customer authorizes the payment.

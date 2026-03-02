@@ -8,7 +8,7 @@
 import Foundation
 
 extension Payment {
-    public enum Status: String, Codable {
+    public enum Status: String, Codable, Sendable {
         /// This order does not require payment.
         case not_required
         /// The order's payment requires a payment method.

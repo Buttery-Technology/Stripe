@@ -15,7 +15,7 @@ import Foundation
 /// so they may not be immediately reflected in aggregates or on upcoming invoices.
 ///
 /// - Note: This is a v2 API resource. Requires `Stripe-Version` header and JSON request body.
-public struct MeterEvent: Codable {
+public struct MeterEvent: Codable, Sendable {
     public static let schema = "billing/meter_events"
 
     /// The name of the meter event. Corresponds to the `event_name` field on a meter.
@@ -55,7 +55,7 @@ public struct MeterEvent: Codable {
 // MARK: - Meter Event Response
 
 /// The response returned after creating a meter event.
-public struct MeterEventResponse: Codable {
+public struct MeterEventResponse: Codable, Sendable {
     /// The unique identifier for the meter event.
     public let identifier: String
 
@@ -96,7 +96,7 @@ public struct MeterEventResponse: Codable {
 // MARK: - Meter Event Create Parameters
 
 /// Parameters for creating a meter event.
-public struct MeterEventCreateParams: Codable {
+public struct MeterEventCreateParams: Codable, Sendable {
     /// The name of the meter event. Corresponds to the `event_name` field on a meter.
     public let eventName: String
 
