@@ -61,7 +61,10 @@ public struct CheckoutSession: Codable, Sendable {
     /// ID of the invoice created by this Checkout Session.
     public let invoice: String?
     /// Details on the state of invoice creation for the Checkout Session.
-    public let invoiceCreation: InvoiceCreation
+    /// Optional — Stripe returns `null` for subscription-mode sessions
+    /// unless `invoice_creation` is explicitly configured (see
+    /// https://docs.stripe.com/api/checkout/sessions/object#checkout_session_object-invoice_creation).
+    public let invoiceCreation: InvoiceCreation?
     /// The line items purchased by the customer.
     public let lineItems: ListObject<SessionLineItem>?
     /// Has the value `true` if the object exists in live mode.
@@ -119,7 +122,7 @@ public struct CheckoutSession: Codable, Sendable {
     /// The URL to the Checkout Session.
     public let url: String?
 
-    public init(id: String, object: String, afterExpiration: AfterExpiration?, allowPromotionCodes: Bool?, amountSubtotal: Int?, amountTotal: Int?, automaticTax: SessionAutomaticTax, billingAddressCollection: BillingAddressCollection?, cancelUrl: String?, clientReferenceId: String?, clientSecret: String?, consent: Consent?, consentCollection: ConsentCollection?, created: TimeInterval, currency: String?, currencyConversion: CurrencyConversion?, customFields: [CustomFieldResponse], customText: CustomText, customer: String?, customerCreation: CustomerCreation?, customerDetails: CustomerDetails?, customerEmail: String?, discounts: [SessionDiscount]?, expiresAt: TimeInterval, invoice: String?, invoiceCreation: InvoiceCreation, lineItems: ListObject<SessionLineItem>?, livemode: Bool, locale: String?, metadata: Metadata?, mode: Mode, paymentIntent: String?, paymentLink: String?, paymentMethodCollection: PaymentMethodCollection?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], paymentStatus: PaymentStatus, phoneNumberCollection: PhoneNumberCollection?, recoveredFrom: String?, redirectOnCompletion: RedirectOnCompletion?, returnUrl: String?, setupIntent: String?, shippingAddressCollection: ShippingAddressCollection?, shippingCost: SessionShippingCost?, shippingOptions: [ShippingOption], status: SessionStatus?, submitType: SubmitType?, subscription: String?, successUrl: String?, taxIdCollection: TaxIdCollection?, totalDetails: TotalDetails?, uiMode: UIMode?, url: String?) {
+    public init(id: String, object: String, afterExpiration: AfterExpiration?, allowPromotionCodes: Bool?, amountSubtotal: Int?, amountTotal: Int?, automaticTax: SessionAutomaticTax, billingAddressCollection: BillingAddressCollection?, cancelUrl: String?, clientReferenceId: String?, clientSecret: String?, consent: Consent?, consentCollection: ConsentCollection?, created: TimeInterval, currency: String?, currencyConversion: CurrencyConversion?, customFields: [CustomFieldResponse], customText: CustomText, customer: String?, customerCreation: CustomerCreation?, customerDetails: CustomerDetails?, customerEmail: String?, discounts: [SessionDiscount]?, expiresAt: TimeInterval, invoice: String?, invoiceCreation: InvoiceCreation?, lineItems: ListObject<SessionLineItem>?, livemode: Bool, locale: String?, metadata: Metadata?, mode: Mode, paymentIntent: String?, paymentLink: String?, paymentMethodCollection: PaymentMethodCollection?, paymentMethodConfigurationDetails: PaymentMethodConfigurationDetails?, paymentMethodOptions: [String: AnyCodable]?, paymentMethodTypes: [String], paymentStatus: PaymentStatus, phoneNumberCollection: PhoneNumberCollection?, recoveredFrom: String?, redirectOnCompletion: RedirectOnCompletion?, returnUrl: String?, setupIntent: String?, shippingAddressCollection: ShippingAddressCollection?, shippingCost: SessionShippingCost?, shippingOptions: [ShippingOption], status: SessionStatus?, submitType: SubmitType?, subscription: String?, successUrl: String?, taxIdCollection: TaxIdCollection?, totalDetails: TotalDetails?, uiMode: UIMode?, url: String?) {
         self.id = id
         self.object = object
         self.afterExpiration = afterExpiration
